@@ -3,17 +3,19 @@ import { Button, Form, Table } from 'react-bootstrap';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import API from '../api/API';
-import IContract from '../../node_modules/audio_diler_common/interfaces/IContract';
+import IBaseContract from '../../node_modules/audio_diler_common/interfaces/IBaseContract';
+import { Link } from 'react-router-dom';
+import { diler_router } from '../routers';
 
 const Contracts: FC = () => {
-    const [contracts, setContracts] = useState<IContract[]>([]);
+    const [contracts, setContracts] = useState<IBaseContract[]>([]);
 
     useEffect(() => {
         const fetch = async () => {
-            const contracts: IContract[] = await API.GetContracts();
+            const contracts: IBaseContract[] = await API.GetContracts();
 
             console.log(contracts);
-            
+
 
             setContracts(contracts);
         }
@@ -41,8 +43,8 @@ const Contracts: FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {contracts.map((contract: IContract) =>
-                        <tr key={contract.id}>
+                    {contracts.map((contract: IBaseContract) =>
+                        <tr key={contract.id} onClick={() => diler_router.navigate(`/contracts/${contract.id}`)} style={{cursor: "pointer"}}>
                             <td>{contract.id}</td>
                             <td>{contract.seller}</td>
                             <td>{contract.buyer}</td>

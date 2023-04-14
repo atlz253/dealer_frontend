@@ -6,7 +6,8 @@ import Providers from './pages/Providers';
 import Clients from './pages/Clients';
 import Products from './pages/Products';
 import Bills from './pages/Bills';
- 
+import Contract from './pages/Contract';
+
 export const diler_router = createBrowserRouter([
     {
         path: "/",
@@ -19,6 +20,10 @@ export const diler_router = createBrowserRouter([
             {
                 path: "/contracts",
                 element: <Contracts />
+            },
+            {
+                path: "/contracts/:contractID",
+                element: <Contract />
             },
             {
                 path: "/providers",
