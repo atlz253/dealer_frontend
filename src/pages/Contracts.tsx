@@ -32,7 +32,7 @@ const Contracts: FC = () => {
                     Составить договор
                 </Button>
             </div>
-            <Table striped bordered hover className="mt-1">
+            <Table hover>
                 <thead>
                     <tr>
                         <th>Номер договора</th>
