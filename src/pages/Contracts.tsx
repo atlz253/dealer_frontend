@@ -14,9 +14,6 @@ const Contracts: FC = () => {
         const fetch = async () => {
             const contracts: IBaseContract[] = await API.GetContracts();
 
-            console.log(contracts);
-
-
             setContracts(contracts);
         }
 
