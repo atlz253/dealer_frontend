@@ -6,6 +6,7 @@ import API from '../api/API';
 import IBaseContract from '../../node_modules/audio_diler_common/interfaces/IBaseContract';
 import { Link } from 'react-router-dom';
 import { diler_router } from '../routers';
+import IconButton from "../components/IconButton";
 
 const Contracts: FC = () => {
     const [contracts, setContracts] = useState<IBaseContract[]>([]);
@@ -22,12 +23,13 @@ const Contracts: FC = () => {
 
     return (
         <div className="d-flex flex-fill flex-column p-1">
-            <div className="d-flex flex-fill" style={{ maxHeight: "50px" }}>
-                <Form.Control type="text" placeholder="Поиск" />
-                <Button className="w-25 ms-1">
-                    <FontAwesomeIcon icon={faPlus} />
-                    Составить договор
-                </Button>
+            <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
+                {/* <Form.Control type="text" placeholder="Поиск" /> */}
+                <IconButton 
+                    icon={faPlus}
+                    text="Составить договор"
+                    className="ms-1"
+                />
             </div>
             <Table hover>
                 <thead>
