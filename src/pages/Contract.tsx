@@ -8,6 +8,8 @@ import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { diler_router } from "../routers";
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
+import { Table } from "react-bootstrap";
+import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 
 const Contract: FC = () => {
     const { contractID } = useParams();
@@ -59,20 +61,48 @@ const Contract: FC = () => {
                         onClick={() => setDeleteModalShow(true)}
                     />
                 </div>
-                <h2 className="text-center">
+                <h1 className="text-center">
                     Договор №{contract.id}
+                </h1>
+                <h2>
+                    Счет продавца
                 </h2>
                 <Bill
                     bill={contract.sellerBill}
                     setBill={(value: IBill) => setContract({ ...contract, sellerBill: value })}
                     isEditMode={true}
                 />
+                <h2 className="mt-3">
+                    Счет покупателя
+                </h2>
                 <Bill
                     bill={contract.buyerBill}
                     setBill={(value: IBill) => setContract({ ...contract, buyerBill: value })}
                     isEditMode={true}
-                    className="mt-3"
                 />
+                <h2 className="mt-3">
+                    Товары
+                </h2>
+                <Table hover>
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <td>Наименование товара</td>
+                            <td>Количество</td>
+                            <td>Стоимость</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {contract.products.map((product: IBaseProduct, index: number) =>
+                            <tr key={product.id}>
+                                <td>{index + 1}</td>
+                                <td>{product.name}</td>
+                                <td>{product.quantity}</td>
+                                <td>{product.price}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
             </div>
             <DeleteModal 
                 isShow={deleteModalShow}
