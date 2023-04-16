@@ -10,6 +10,7 @@ import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
 import { Table } from "react-bootstrap";
 import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import ProductsTable, { ProductsIndexing } from "../components/ProductsTable";
 
 const Contract: FC = () => {
     const { contractID } = useParams();
@@ -24,7 +25,7 @@ const Contract: FC = () => {
                 return;
             }
 
-            const contract = await API.GetContract(contractID);
+            const contract = await API.Contracts.GetContract(contractID);
 
             setContract(contract);
         }
@@ -83,26 +84,10 @@ const Contract: FC = () => {
                 <h2 className="mt-3">
                     Товары
                 </h2>
-                <Table hover>
-                    <thead>
-                        <tr>
-                            <td>№</td>
-                            <td>Наименование товара</td>
-                            <td>Количество</td>
-                            <td>Стоимость</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {contract.products.map((product: IBaseProduct, index: number) =>
-                            <tr key={product.id}>
-                                <td>{index + 1}</td>
-                                <td>{product.name}</td>
-                                <td>{product.quantity}</td>
-                                <td>{product.price}</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </Table>
+                <ProductsTable 
+                    products={contract.products}
+                    indexing={ProductsIndexing.number}
+                />
             </div>
             <DeleteModal 
                 isShow={deleteModalShow}

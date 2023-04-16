@@ -1,6 +1,6 @@
 import IBill from 'audio_diler_common/interfaces/IBill';
 import React, { FC } from 'react';
-import NamedInput from './NamedInput';
+import NamedInput from './NamedInput/NamedInput';
 
 interface IBillProps {
     bill: IBill,

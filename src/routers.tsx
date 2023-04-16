@@ -7,6 +7,7 @@ import Clients from './pages/Clients';
 import Products from './pages/Products';
 import Bills from './pages/Bills';
 import Contract from './pages/Contract';
+import Product from "./pages/Product";
 
 export const diler_router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ export const diler_router = createBrowserRouter([
             {
                 path: "/products",
                 element: <Products />
+            },
+            {
+                path: "/products/:productID",
+                element: <Product />
             },
             {
                 path: "/bills",

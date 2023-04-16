@@ -13,7 +13,7 @@ const Contracts: FC = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const contracts: IBaseContract[] = await API.GetContracts();
+            const contracts: IBaseContract[] = await API.Contracts.Get();
 
             setContracts(contracts);
         }
@@ -25,7 +25,7 @@ const Contracts: FC = () => {
         <div className="d-flex flex-fill flex-column p-1">
             <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
                 {/* <Form.Control type="text" placeholder="Поиск" /> */}
-                <IconButton 
+                <IconButton
                     icon={faPlus}
                     text="Составить договор"
                     className="ms-1"
@@ -43,7 +43,11 @@ const Contracts: FC = () => {
                 </thead>
                 <tbody>
                     {contracts.map((contract: IBaseContract) =>
-                        <tr key={contract.id} onClick={() => diler_router.navigate(`/contracts/${contract.id}`)} style={{cursor: "pointer"}}>
+                        <tr
+                            key={contract.id} onClick={() => diler_router.navigate(`/contracts/${contract.id}`)}
+                            style={{ cursor: "pointer" }}
+                            title={`Нажмите, чтобы перейти к просмотру договора №${contract.id}`}
+                        >
                             <td>{contract.id}</td>
                             <td>{contract.seller}</td>
                             <td>{contract.buyer}</td>

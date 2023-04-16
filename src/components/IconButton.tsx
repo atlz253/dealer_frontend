@@ -7,12 +7,13 @@ interface IIconButtonProps {
     icon: IconDefinition,
     variant?: string | undefined,
     onClick?: () => any,
-    text?: string
+    text?: string,
+    className?: string | undefined
 }
 
-const IconButton: FC<IIconButtonProps> = ({ icon, variant, text = "", onClick = undefined }) => {
+const IconButton: FC<IIconButtonProps> = ({ icon, variant, text = "", onClick = undefined, className = undefined }) => {
     return (
-        <Button variant={variant} onClick={onClick}>
+        <Button variant={variant} onClick={onClick} className={className}>
             <FontAwesomeIcon icon={icon} />
             <span className="ms-1">
                 {text}
