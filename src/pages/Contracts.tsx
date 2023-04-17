@@ -1,21 +1,36 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import API from '../api/API';
 import IBaseContract from '../../node_modules/audio_diler_common/interfaces/IBaseContract';
-import { Link } from 'react-router-dom';
-import { diler_router } from '../routers';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import IconButton from "../components/IconButton";
+import { AuthContext, IAuthContext } from "../context";
+import IResponse from "audio_diler_common/interfaces/IResponse";
 
 const Contracts: FC = () => {
     const [contracts, setContracts] = useState<IBaseContract[]>([]);
+    const {auth} = useContext<IAuthContext>(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
-            const contracts: IBaseContract[] = await API.Contracts.Get();
+            if (auth === null || auth.accessToken === undefined) {
+                alert("Ошибка авторизации");
+    
+                return;
+            }
 
-            setContracts(contracts);
+            const response = await API.Contracts.Get(auth.accessToken);
+
+            if (response === null || response.status !== 200 || response.data === undefined) {
+                console.log(response);
+
+                return;
+            }
+
+            setContracts(response.data);
         }
 
         fetch();
@@ -44,7 +59,8 @@ const Contracts: FC = () => {
                 <tbody>
                     {contracts.map((contract: IBaseContract) =>
                         <tr
-                            key={contract.id} onClick={() => diler_router.navigate(`/contracts/${contract.id}`)}
+                            key={contract.id} 
+                            onClick={() => navigate(`/contracts/${contract.id}`)}
                             style={{ cursor: "pointer" }}
                             title={`Нажмите, чтобы перейти к просмотру договора №${contract.id}`}
                         >

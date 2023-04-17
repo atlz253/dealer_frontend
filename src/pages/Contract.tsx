@@ -1,21 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { FC, useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import IContract from 'audio_diler_common/interfaces/IContract';
 import API from '../api/API';
 import Bill from '../components/Bill';
 import IBill from 'audio_diler_common/interfaces/IBill';
 import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { diler_router } from "../routers";
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
-import { Table } from "react-bootstrap";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 import ProductsTable, { ProductsIndexing } from "../components/ProductsTable";
+import { AuthContext, IAuthContext } from "../context";
 
 const Contract: FC = () => {
     const { contractID } = useParams();
     const [contract, setContract] = useState<IContract | null>(null);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
+    const {auth} = useContext<IAuthContext>(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
@@ -25,16 +25,28 @@ const Contract: FC = () => {
                 return;
             }
 
-            const contract = await API.Contracts.GetContract(contractID);
+            if (auth === null || auth.accessToken === undefined) {
+                alert("Ошибка авторизации");
 
-            setContract(contract);
+                return;
+            }
+
+            const response = await API.Contracts.GetContract(auth?.accessToken, contractID);
+
+            if (response === null || response.status !== 200 || response.data === undefined) {
+                alert("Не удалось получить данные");
+
+                return;
+            }
+
+            setContract(response.data);
         }
 
         fetch();
     }, []);
 
     const deleteContract = () => {
-        diler_router.navigate("/contracts");
+        navigate("/contracts");
     }
 
     if (contract === null) {
@@ -53,7 +65,7 @@ const Contract: FC = () => {
                         icon={faArrowLeft}
                         variant="secondary"
                         text="Назад"
-                        onClick={() => diler_router.navigate("/contracts")}
+                        onClick={() => navigate("/contracts")}
                     />
                     <IconButton 
                         icon={faTrash}

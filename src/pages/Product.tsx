@@ -1,13 +1,13 @@
 import IProduct from "audio_diler_common/interfaces/IProduct";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import API from "../api/API";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NamedInput, { NamedInputType } from "../components/NamedInput/NamedInput";
 import { faArrowLeft, faFloppyDisk, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../components/IconButton";
-import { diler_router } from "../routers";
 import DeleteModal from "../components/DeleteModal";
 import ApproveModal from "../components/ApproveModal";
+import { AuthContext, IAuthContext } from "../context";
 
 const Product = () => {
     const { productID } = useParams();
@@ -16,6 +16,8 @@ const Product = () => {
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const productBackup = useRef<IProduct | null>(null);
+    const {auth} = useContext<IAuthContext>(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
@@ -25,9 +27,24 @@ const Product = () => {
                 return;
             }
 
-            const product = await API.Products.GetProduct(productID);
+            if (auth === null || auth.accessToken === undefined) {
+                alert("Ошибка авторизации");
 
-            setProduct(product);
+                return;
+            }
+
+            const response = await API.Products.GetProduct(auth.accessToken, productID);
+
+            if (response === null || response.status !== 200 || response.data === undefined) {
+                console.log(response);
+                
+
+                alert("Не удалось получить данные");
+
+                return;
+            }
+
+            setProduct(response.data);
         }
 
         fetch();
@@ -35,7 +52,7 @@ const Product = () => {
 
     const deleteProduct = () => {
 
-        diler_router.navigate("/products");
+        navigate("/products");
     }
 
     const saveProduct = () => {
@@ -66,7 +83,7 @@ const Product = () => {
             setCancelEditModalShow(true);
         }
         else {
-            diler_router.navigate("/products");
+            navigate("/products");
         }
     }
 
