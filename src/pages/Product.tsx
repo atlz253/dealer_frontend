@@ -1,5 +1,5 @@
 import IProduct from "audio_diler_common/interfaces/IProduct";
-import React, { useContext, useEffect, useRef, useState, FC } from 'react';
+import { useContext, useEffect, useRef, useState, FC } from 'react';
 import API from "../api/API";
 import { useNavigate, useParams } from "react-router-dom";
 import NamedInput, { NamedInputType } from "../components/NamedInput/NamedInput";
@@ -29,6 +29,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
                 id: 0,
                 name: "",
                 category: "",
+                manufacturer: "",
                 quantity: 0,
                 price: 0,
                 description: "" 
@@ -92,15 +93,15 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         let p;
 
         if (newProduct) {
-            p = await API.Products.CreateProduct(auth.accessToken, product);
+            const response = await API.Products.CreateProduct(auth.accessToken, product);
 
-            if (p === null || p.status !== 200 || p.data === undefined) {
+            if (response === null || response.status !== 200 || response.data === undefined) {
                 alert("Не удалось создать товар");
                 
                 return;
             }
     
-            setProduct(p.data);
+            setProduct({...product, id: response.data.id});
         }
         else {
             p = await API.Products.SaveProduct(auth.accessToken, product);
@@ -205,6 +206,12 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
                     name="Категория"
                     value={product.category}
                     onChange={(value: string) => setProduct({ ...product, category: value })}
+                    disabled={!isEditMode}
+                />
+                <NamedInput
+                    name="Производитель"
+                    value={product.manufacturer}
+                    onChange={(value: string) => setProduct({ ...product, manufacturer: value })}
                     disabled={!isEditMode}
                 />
                 <NamedInput
