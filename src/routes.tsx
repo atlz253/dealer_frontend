@@ -35,6 +35,10 @@ export const diler_routes: RouteObject[] = [
         element: <Products />
     },
     {
+        path: "/products/new",
+        element: <Product newProduct />
+    },
+    {
         path: "/products/:productID",
         element: <Product />
     },

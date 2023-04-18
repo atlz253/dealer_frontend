@@ -36,6 +36,38 @@ class Products {
             return null;
         }
     }
+
+    public static async CreateProduct(accessToken: string, product: IProduct): Promise<IResponse<IProduct> | null> {
+        try {
+            const request = await axios.post<IResponse<IProduct>>(baseURL + "/products/new", product, {
+                headers: {
+                    authorization: accessToken
+                }
+            });
+
+            return request.data;
+        } catch (e) {
+            console.error(e);
+            
+            return null;
+        }
+    }
+
+    public static async SaveProduct(accessToken: string, product: IProduct): Promise<IResponse<IProduct> | null> {
+        try {
+            const request = await axios.put<IResponse<IProduct>>(baseURL + "/products/new", product, {
+                headers: {
+                    authorization: accessToken
+                }
+            });
+
+            return request.data;
+        } catch (e) {
+            console.error(e);
+            
+            return null;
+        }
+    }
 }
 
 export default Products;

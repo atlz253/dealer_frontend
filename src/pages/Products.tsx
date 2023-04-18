@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);
-    const {auth} = useContext<IAuthContext>(AuthContext);
+    const { auth } = useContext<IAuthContext>(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,13 +37,14 @@ const Products: FC = () => {
     return (
         <div className="d-flex flex-fill flex-column p-1">
             <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
-                <IconButton 
+                <IconButton
                     icon={faPlus}
                     text="Добавить"
                     className="ms-1"
+                    onClick={() => navigate("/products/new")}
                 />
             </div>
-            <ProductsTable 
+            <ProductsTable
                 products={products}
                 onRowClick={(id: number) => navigate(`/products/${id}`)}
                 rowTitle="Нажмите, чтобы просмотреть товар"
