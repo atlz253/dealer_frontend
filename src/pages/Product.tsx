@@ -21,6 +21,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const productBackup = useRef<IProduct | null>(null);
     const { auth } = useContext<IAuthContext>(AuthContext);
+    const [price, setPrice] = useState<string>("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +33,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
                 manufacturer: "",
                 quantity: 0,
                 price: 0,
-                description: "" 
+                description: ""
             });
 
             setIsEditMode(true);
@@ -70,6 +71,16 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         fetch();
     }, []);
 
+    useEffect(() => {
+        if (product === null) {
+            setPrice("");
+
+            return;
+        }
+
+        setPrice(product.price.toString());
+    }, [product]);
+
     const deleteProduct = () => {
 
         navigate("/products");
@@ -86,7 +97,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
 
         if (product === null) {
             console.error("Отсутствует объект товара");
-            
+
             return;
         }
 
@@ -97,18 +108,18 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
 
             if (response === null || response.status !== 200 || response.data === undefined) {
                 alert("Не удалось создать товар");
-                
+
                 return;
             }
-    
-            setProduct({...product, id: response.data.id});
+
+            setProduct({ ...product, id: response.data.id });
         }
         else {
             p = await API.Products.SaveProduct(auth.accessToken, product);
 
             if (p === null || p.status !== 200) { // TODO: разобраться со статус кодами
                 alert("Не удалось создать товар");
-                
+
                 return;
             }
         }
@@ -216,8 +227,16 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
                 />
                 <NamedInput
                     name="Цена"
-                    value={String(product.price)}
-                    onChange={(value: string) => setProduct({ ...product, price: Number(value) })}
+                    value={price}
+                    onChange={(value: string) => {
+                        const num = Number(value);
+
+                        if (!Number.isNaN(num) && value[value.length - 1] !== ".") {
+                            setProduct({...product, price: num});
+                        }
+
+                        setPrice(value)
+                    }}
                     disabled={!isEditMode}
                 />
                 <NamedInput
