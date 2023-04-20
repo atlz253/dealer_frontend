@@ -16,62 +16,40 @@ class Products {
         return request.data;
     }
 
-    public static async GetProduct(accessToken: string, id: string): Promise<IResponse<IProduct> | null> {
-        try {
-            const request = await axios.get<IResponse<IProduct>>(baseURL + "/products/" + id, {
-                headers: {
-                    authorization: accessToken
-                }
-            });
-
-            return request.data;
-        } catch (e) {
-            console.error(e);
-
-            return null;
-        }
-    }
-
-    public static async CreateProduct(accessToken: string, product: IProduct): Promise<IResponse<ID> | null> {
-        try {
-            const request = await axios.post<IResponse<ID>>(baseURL + "/products/new", product, {
-                headers: {
-                    authorization: accessToken
-                }
-            });
-
-            return request.data;
-        } catch (e) {
-            console.error(e);
-            
-            return null;
-        }
-    }
-
-    public static async SaveProduct(accessToken: string, product: IProduct): Promise<IResponse<IResponse> | null> {
-        try {
-            const request = await axios.put<IResponse<IResponse>>(baseURL + "/products/" + product.id, product, {
-                headers: {
-                    authorization: accessToken
-                }
-            });
-
-            return request.data;
-        } catch (e) {
-            console.error(e);
-            
-            return null;
-        }
-    }
-
-    public static async DeleteProduct(accessToken: string, id: number) {
-        const request = await axios.delete<IResponse<IResponse>>(baseURL + "/products/" + id, {
+    public static async GetProduct(accessToken: string, id: string): Promise<IProduct> {
+        const request = await axios.get<IProduct>(baseURL + "/products/" + id, {
             headers: {
                 authorization: accessToken
             }
         });
-        
+
         return request.data;
+    }
+
+    public static async CreateProduct(accessToken: string, product: IProduct): Promise<ID> {
+        const request = await axios.post<ID>(baseURL + "/products/new", product, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+
+        return request.data;
+    }
+
+    public static async SaveProduct(accessToken: string, product: IProduct): Promise<void> {
+        await axios.put(baseURL + "/products/" + product.id, product, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+    }
+
+    public static async DeleteProduct(accessToken: string, id: number): Promise<void> {
+        await axios.delete(baseURL + "/products/" + id, {
+            headers: {
+                authorization: accessToken
+            }
+        });
     }
 }
 

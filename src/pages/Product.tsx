@@ -8,6 +8,7 @@ import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
 import ApproveModal from "../components/ApproveModal";
 import { AuthContext, IAuthContext } from "../context";
+import tryServerRequest from "../utils/tryServerRequest";
 
 interface ProductProps {
     newProduct?: boolean
@@ -15,7 +16,15 @@ interface ProductProps {
 
 const Product: FC<ProductProps> = ({ newProduct }) => {
     const { productID } = useParams();
-    const [product, setProduct] = useState<IProduct | null>(null);
+    const [product, setProduct] = useState<IProduct>({
+        id: 0,
+        name: "",
+        category: "",
+        manufacturer: "",
+        quantity: 0,
+        price: 0,
+        description: ""
+    });
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
@@ -26,49 +35,28 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
 
     useEffect(() => {
         if (newProduct) {
-            setProduct({
-                id: 0,
-                name: "",
-                category: "",
-                manufacturer: "",
-                quantity: 0,
-                price: 0,
-                description: ""
-            });
-
             setIsEditMode(true);
 
             return;
         }
 
-        const fetch = async () => {
-            if (productID === undefined) {
-                console.error("Не удалось получить ID товара");
+        if (productID === undefined) {
+            console.error("Не удалось получить ID товара");
 
-                return;
-            }
+            return;
+        }
 
+        tryServerRequest(async () => {
             if (auth === null || auth.accessToken === undefined) {
                 alert("Ошибка авторизации");
 
                 return;
             }
 
-            const response = await API.Products.GetProduct(auth.accessToken, productID);
+            const product = await API.Products.GetProduct(auth.accessToken, productID);
 
-            if (response === null || response.status !== 200 || response.data === undefined) {
-                console.log(response);
-
-
-                alert("Не удалось получить данные");
-
-                return;
-            }
-
-            setProduct(response.data);
-        }
-
-        fetch();
+            setProduct(product);
+        });
     }, []);
 
     useEffect(() => {
@@ -82,62 +70,40 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
     }, [product]);
 
     const deleteProduct = async () => {
-        if (auth === null || auth.accessToken === undefined) {
-            alert("Ошибка авторизации");
-
-            return;
-        }
-
-        if (product === null) {
-            console.error("Отсутствует объект товара");
-
-            return;
-        }
-
-        await API.Products.DeleteProduct(auth.accessToken, product.id)
-
-        navigate("/products");
+        tryServerRequest(async () => {
+            if (auth === null || auth.accessToken === undefined) {
+                alert("Ошибка авторизации");
+    
+                return;
+            }
+    
+            await API.Products.DeleteProduct(auth.accessToken, product.id)
+    
+            navigate("/products");
+        });
     }
 
     const saveProduct = async () => {
         productBackup.current = null;
 
-        if (auth === null || auth.accessToken === undefined) {
-            alert("Ошибка авторизации");
-
-            return;
-        }
-
-        if (product === null) {
-            console.error("Отсутствует объект товара");
-
-            return;
-        }
-
-        let p;
-
-        if (newProduct) {
-            const response = await API.Products.CreateProduct(auth.accessToken, product);
-
-            if (response === null || response.status !== 200 || response.data === undefined) {
-                alert("Не удалось создать товар");
-
+        tryServerRequest(async () => {
+            if (auth === null || auth.accessToken === undefined) {
+                alert("Ошибка авторизации");
+    
                 return;
             }
-
-            setProduct({ ...product, id: response.data.id });
-        }
-        else {
-            p = await API.Products.SaveProduct(auth.accessToken, product);
-
-            if (p === null || p.status !== 200) { // TODO: разобраться со статус кодами
-                alert("Не удалось создать товар");
-
-                return;
+    
+            if (newProduct) {
+                const response = await API.Products.CreateProduct(auth.accessToken, product);
+    
+                setProduct({ ...product, id: response.id });
             }
-        }
+            else {
+                const p = await API.Products.SaveProduct(auth.accessToken, product);
+            }
 
-        setIsEditMode(false);
+            setIsEditMode(false);
+        });
     }
 
     const editProduct = () => {
@@ -154,10 +120,15 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         }
 
         const product = productBackup.current;
-
+        
         productBackup.current = null;
-
-        setProduct(product);
+        
+        if (product !== null) {
+            setProduct(product);
+        }
+        else {
+            console.error("Не удалось найти резервную копию товара");
+        }
 
         setIsEditMode(false);
         setCancelEditModalShow(false);
