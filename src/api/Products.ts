@@ -69,6 +69,16 @@ class Products {
             return null;
         }
     }
+
+    public static async DeleteProduct(accessToken: string, id: number) {
+        const request = await axios.delete<IResponse<IResponse>>(baseURL + "/products/" + id, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+        
+        return request.data;
+    }
 }
 
 export default Products;

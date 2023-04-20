@@ -81,7 +81,20 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         setPrice(product.price.toString());
     }, [product]);
 
-    const deleteProduct = () => {
+    const deleteProduct = async () => {
+        if (auth === null || auth.accessToken === undefined) {
+            alert("Ошибка авторизации");
+
+            return;
+        }
+
+        if (product === null) {
+            console.error("Отсутствует объект товара");
+
+            return;
+        }
+
+        await API.Products.DeleteProduct(auth.accessToken, product.id)
 
         navigate("/products");
     }
