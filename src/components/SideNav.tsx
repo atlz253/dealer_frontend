@@ -1,15 +1,22 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { IAuthContext } from "../context";
+import { AuthContext } from "../context";
+import { admin_links, dealer_links } from "../configs/nav";
 
 const SideNav: FC = () => {
+    const { auth } = useContext<IAuthContext>(AuthContext);
+
+    let links = dealer_links;
+
+    if (auth?.role === "admin") {
+        links = admin_links;
+    }
+
     return (
         <Nav className="flex-column">
-            <Link className="nav-link" to="/contracts">Договора</Link>
-            <Link className="nav-link" to="/providers">Поставщики</Link>
-            <Link className="nav-link" to="/clients">Клиенты</Link>
-            <Link className="nav-link" to="/products">Товары</Link>
-            <Link className="nav-link" to="/bills">Счета</Link>
+            {links.map(link => <Link className="nav-link" to={link.to}>{link.name}</Link>)}
         </Nav>
     );
 }

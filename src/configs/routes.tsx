@@ -1,15 +1,15 @@
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
-import Root from './pages/Root';
-import Contracts from './pages/Contracts';
-import Index from './pages/Index';
-import Providers from './pages/Providers';
-import Clients from './pages/Clients';
-import Products from './pages/Products';
-import Bills from './pages/Bills';
-import Contract from './pages/Contract';
-import Product from "./pages/Product";
+import Root from '../pages/Root';
+import Contracts from '../pages/Contracts';
+import Index from '../pages/Index';
+import Providers from '../pages/Providers';
+import Clients from '../pages/Clients';
+import Products from '../pages/Products';
+import Bills from '../pages/Bills';
+import Contract from '../pages/Contract';
+import Product from "../pages/Product";
 
-export const diler_routes: RouteObject[] = [
+export const dealer_routes: RouteObject[] = [
     {
         path: "/",
         element: <Index />
@@ -51,6 +51,10 @@ export const diler_routes: RouteObject[] = [
 export const admin_routes: RouteObject[] = [
     {
         path: "/",
-        element: <h1>Hello, admin!</h1>
+        element: <Index />
     },
+    {
+        path: "/users",
+        element: <h1>Hello world!</h1>
+    }
 ]

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Route, Routes } from "react-router-dom";
-import { admin_routes, diler_routes } from "../routes";
+import { admin_routes, dealer_routes } from "../configs/routes";
 import App from "./App";
 import { AuthContext } from "../context";
 import Auth from "./Auth";
@@ -15,7 +15,7 @@ export const AppRouter = () => {
         )
     }
 
-    let routes = diler_routes;
+    let routes = dealer_routes;
 
     if (auth.role === "admin") {
         routes = admin_routes;

@@ -4,7 +4,7 @@ import SideNav from '../components/SideNav';
 import { AuthContext, IAuthContext } from "../context";
 import IAuth from "audio_diler_common/interfaces/IAuth";
 import App from "./App";
-import { diler_routes } from "../routes";
+import { dealer_routes } from "../configs/routes";
 import { AppRouter } from "./AppRouter";
 import API from "../api/API";
 
