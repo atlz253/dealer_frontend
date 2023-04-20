@@ -7,7 +7,7 @@ import ProductsTable from "../components/ProductsTable";
 import { AuthContext, IAuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import statusErrorString from "../utils/statusErrorString";
+import getAxiosErrorMessage from "../utils/getAxiosErrorMessage";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);
@@ -28,15 +28,7 @@ const Products: FC = () => {
                 setProducts(response);
             } catch (error) {
                 if (error instanceof AxiosError) {
-                    if (error.response === undefined) {
-                        alert("Не был получен ответ от сервера");
-
-                        return;
-                    }
-
-                    const status = error.response.status;
-
-                    alert(`[${status}] ${statusErrorString[status]}`); // TODO: обрабатывать undefined как неизвестную ошибку
+                    alert(getAxiosErrorMessage(error));
                 }
             }
         }
