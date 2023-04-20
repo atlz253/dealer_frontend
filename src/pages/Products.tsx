@@ -30,6 +30,9 @@ const Products: FC = () => {
                 if (error instanceof AxiosError) {
                     alert(getAxiosErrorMessage(error));
                 }
+                else {
+                    alert(error);
+                }
             }
         }
 
