@@ -6,9 +6,18 @@ import IAuth from "audio_diler_common/interfaces/IAuth";
 import App from "./App";
 import { diler_routes } from "../routes";
 import { AppRouter } from "./AppRouter";
+import API from "../api/API";
 
 const Root: FC = () => {
   const [auth, setAuth] = useState<IAuth | null>(null);
+
+  useEffect(() => {
+    if (auth === null || auth.accessToken === undefined) {
+      return;
+    }
+
+    API.SetAuthToken(auth.accessToken);
+  }, [auth]);
 
   useEffect(() => {
     const auth = sessionStorage.getItem("auth");

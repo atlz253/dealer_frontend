@@ -1,5 +1,5 @@
 import IProduct from "audio_diler_common/interfaces/IProduct";
-import { useContext, useEffect, useRef, useState, FC } from 'react';
+import { useEffect, useRef, useState, FC } from 'react';
 import API from "../api/API";
 import { useNavigate, useParams } from "react-router-dom";
 import NamedInput, { NamedInputType } from "../components/NamedInput/NamedInput";
@@ -7,7 +7,6 @@ import { faArrowLeft, faFloppyDisk, faPen, faTrash } from "@fortawesome/free-sol
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
 import ApproveModal from "../components/ApproveModal";
-import { AuthContext, IAuthContext } from "../context";
 import tryServerRequest from "../utils/tryServerRequest";
 
 interface ProductProps {
@@ -29,7 +28,6 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const productBackup = useRef<IProduct | null>(null);
-    const { auth } = useContext<IAuthContext>(AuthContext);
     const [price, setPrice] = useState<string>("");
     const navigate = useNavigate();
 
@@ -47,13 +45,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         }
 
         tryServerRequest(async () => {
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-
-                return;
-            }
-
-            const product = await API.Products.GetProduct(auth.accessToken, productID);
+            const product = await API.Products.GetProduct(productID);
 
             setProduct(product);
         });
@@ -71,13 +63,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
 
     const deleteProduct = async () => {
         tryServerRequest(async () => {
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-    
-                return;
-            }
-    
-            await API.Products.DeleteProduct(auth.accessToken, product.id)
+            await API.Products.DeleteProduct(product.id)
     
             navigate("/products");
         });
@@ -87,19 +73,13 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
         productBackup.current = null;
 
         tryServerRequest(async () => {
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-    
-                return;
-            }
-    
             if (newProduct) {
-                const response = await API.Products.CreateProduct(auth.accessToken, product);
+                const response = await API.Products.CreateProduct(product);
     
                 setProduct({ ...product, id: response.id });
             }
             else {
-                const p = await API.Products.SaveProduct(auth.accessToken, product);
+                const p = await API.Products.SaveProduct(product);
             }
 
             setIsEditMode(false);

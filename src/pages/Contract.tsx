@@ -14,7 +14,6 @@ const Contract: FC = () => {
     const { contractID } = useParams();
     const [contract, setContract] = useState<IContract | null>(null);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
-    const {auth} = useContext<IAuthContext>(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,13 +24,7 @@ const Contract: FC = () => {
                 return;
             }
 
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-
-                return;
-            }
-
-            const response = await API.Contracts.GetContract(auth?.accessToken, contractID);
+            const response = await API.Contracts.GetContract(contractID);
 
             if (response === null || response.status !== 200 || response.data === undefined) {
                 alert("Не удалось получить данные");

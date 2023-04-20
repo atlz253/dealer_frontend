@@ -3,13 +3,14 @@ import IContract from "audio_diler_common/interfaces/IContract";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
 import IResponse from "audio_diler_common/interfaces/IResponse";
+import AbstractAPI from "./AbstractAPI";
 
-class Contracts {
-    public static async Get(accessToken: string): Promise<IResponse<IBaseContract[]> | null> {
+class Contracts extends AbstractAPI {
+    public static async Get(): Promise<IResponse<IBaseContract[]> | null> {
         try {
             const request = await axios.get<IResponse<IBaseContract[]>>(baseURL + "/contracts", {
                 headers: {
-                    authorization: accessToken
+                    authorization: this.authToken
                 }
             });
 
@@ -21,11 +22,11 @@ class Contracts {
         }
     }
 
-    public static async GetContract(accessToken: string, id: string): Promise<IResponse<IContract> | null> {
+    public static async GetContract(id: string): Promise<IResponse<IContract> | null> {
         try {
             const request = await axios.get<IResponse<IContract>>(baseURL + "/contracts/" + id, {
                 headers: {
-                    authorization: accessToken
+                    authorization: this.authToken
                 }
             });
 

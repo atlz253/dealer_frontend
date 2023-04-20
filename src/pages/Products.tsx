@@ -4,26 +4,16 @@ import IconButton from "../components/IconButton";
 import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 import API from "../api/API";
 import ProductsTable from "../components/ProductsTable";
-import { AuthContext, IAuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
-import getAxiosErrorMessage from "../utils/getAxiosErrorMessage";
 import tryServerRequest from "../utils/tryServerRequest";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);
-    const { auth } = useContext<IAuthContext>(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         tryServerRequest(async () => {
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-
-                return;
-            }
-
-            const response: IBaseProduct[] = await API.Products.Get(auth.accessToken);
+            const response: IBaseProduct[] = await API.Products.Get();
 
             setProducts(response);
         });

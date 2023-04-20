@@ -11,18 +11,11 @@ import IResponse from "audio_diler_common/interfaces/IResponse";
 
 const Contracts: FC = () => {
     const [contracts, setContracts] = useState<IBaseContract[]>([]);
-    const {auth} = useContext<IAuthContext>(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
-            if (auth === null || auth.accessToken === undefined) {
-                alert("Ошибка авторизации");
-    
-                return;
-            }
-
-            const response = await API.Contracts.Get(auth.accessToken);
+            const response = await API.Contracts.Get();
 
             if (response === null || response.status !== 200 || response.data === undefined) {
                 console.log(response);
