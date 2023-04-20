@@ -6,6 +6,8 @@ import API from "../api/API";
 import ProductsTable from "../components/ProductsTable";
 import { AuthContext, IAuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import statusErrorString from "../utils/statusErrorString";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);
@@ -20,15 +22,23 @@ const Products: FC = () => {
                 return;
             }
 
-            const response = await API.Products.Get(auth.accessToken);
+            try {
+                const response: IBaseProduct[] = await API.Products.Get(auth.accessToken);
 
-            if (response === null || response.status !== 200 || response.data === undefined) {
-                alert("Не удалось получить данные");
+                setProducts(response);
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    if (error.response === undefined) {
+                        alert("Не был получен ответ от сервера");
 
-                return;
+                        return;
+                    }
+
+                    const status = error.response.status;
+
+                    alert(`[${status}] ${statusErrorString[status]}`); // TODO: обрабатывать undefined как неизвестную ошибку
+                }
             }
-
-            setProducts(response.data);
         }
 
         fetch();

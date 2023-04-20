@@ -6,20 +6,14 @@ import IResponse from "audio_diler_common/interfaces/IResponse";
 import ID from "audio_diler_common/interfaces/ID";
 
 class Products {
-    public static async Get(accessToken: string,): Promise<IResponse<IBaseProduct[]> | null> {
-        try {
-            const request = await axios.get<IResponse<IBaseProduct[]>>(baseURL + "/products", {
-                headers: {
-                    authorization: accessToken
-                }
-            });
+    public static async Get(accessToken: string): Promise<IBaseProduct[]> {
+        const request = await axios.get<IBaseProduct[]>(baseURL + "/products", {
+            headers: {
+                authorization: accessToken
+            }
+        });
 
-            return request.data;
-        } catch (e) {
-            console.error(e);
-
-            return null;
-        }
+        return request.data;
     }
 
     public static async GetProduct(accessToken: string, id: string): Promise<IResponse<IProduct> | null> {
