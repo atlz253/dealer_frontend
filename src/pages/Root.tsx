@@ -12,11 +12,13 @@ const Root: FC = () => {
   const [auth, setAuth] = useState<IAuth | null>(null);
 
   useEffect(() => {
-    if (auth === null || auth.accessToken === undefined) {
-      return;
+    let token: string = "";
+
+    if (auth !== null && auth.accessToken !== undefined) {
+      token = auth.accessToken;
     }
 
-    API.SetAuthToken(auth.accessToken);
+    API.SetAuthToken(token);
   }, [auth]);
 
   useEffect(() => {
