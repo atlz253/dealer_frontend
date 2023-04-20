@@ -8,8 +8,10 @@ const getAxiosErrorMessage = (error: AxiosError): string => {
     const status = error.response.status;
 
     switch (status) {
+        case 400:
+            return "Некорректный запрос";
         case 401:
-            return "Ошибка авторизации"
+            return "Ошибка авторизации";
         default:
             return `Неизвестная ошибка. Код ответа: ${status}`;
     }
