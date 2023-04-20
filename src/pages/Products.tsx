@@ -8,6 +8,7 @@ import { AuthContext, IAuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import getAxiosErrorMessage from "../utils/getAxiosErrorMessage";
+import tryServerRequest from "../utils/tryServerRequest";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);
@@ -15,28 +16,17 @@ const Products: FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetch = async () => {
+        tryServerRequest(async () => {
             if (auth === null || auth.accessToken === undefined) {
                 alert("Ошибка авторизации");
 
                 return;
             }
 
-            try {
-                const response: IBaseProduct[] = await API.Products.Get(auth.accessToken);
+            const response: IBaseProduct[] = await API.Products.Get(auth.accessToken);
 
-                setProducts(response);
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    alert(getAxiosErrorMessage(error));
-                }
-                else {
-                    alert(error);
-                }
-            }
-        }
-
-        fetch();
+            setProducts(response);
+        });
     }, []);
 
     return (
