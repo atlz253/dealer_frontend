@@ -8,6 +8,8 @@ import Products from '../pages/Products';
 import Bills from '../pages/Bills';
 import Contract from '../pages/Contract';
 import Product from "../pages/Product";
+import Users from "../pages/Users";
+import User from "../pages/User";
 
 export const dealer_routes: RouteObject[] = [
     {
@@ -55,6 +57,14 @@ export const admin_routes: RouteObject[] = [
     },
     {
         path: "/users",
-        element: <h1>Hello world!</h1>
+        element: <Users />
+    },
+    {
+        path: "/users/:userID",
+        element: <User />
+    },
+    {
+        path: "/users/new",
+        element: <User newUser />
     }
 ]

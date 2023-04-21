@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC } from 'react';
 import { Form } from 'react-bootstrap';
-import styles from './NamedInput.module.css';
+import styles from './NamedInputs.module.css';
 import classNames from "classnames";
 
 export enum NamedInputType {

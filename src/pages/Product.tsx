@@ -2,7 +2,7 @@ import IProduct from "audio_diler_common/interfaces/IProduct";
 import { useEffect, useRef, useState, FC } from 'react';
 import API from "../api/API";
 import { useNavigate, useParams } from "react-router-dom";
-import NamedInput, { NamedInputType } from "../components/NamedInput/NamedInput";
+import NamedInput, { NamedInputType } from "../components/NamedInputs/NamedInput";
 import { faArrowLeft, faFloppyDisk, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
@@ -79,7 +79,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
                 setProduct({ ...product, id: response.id });
             }
             else {
-                const p = await API.Products.SaveProduct(product);
+                await API.Products.SaveProduct(product);
             }
 
             setIsEditMode(false);

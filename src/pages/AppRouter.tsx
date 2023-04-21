@@ -17,7 +17,7 @@ export const AppRouter = () => {
 
     let routes = dealer_routes;
 
-    if (auth.role === "admin") {
+    if (auth.type === "admin") {
         routes = admin_routes;
     }
 

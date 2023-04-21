@@ -10,13 +10,13 @@ const SideNav: FC = () => {
 
     let links = dealer_links;
 
-    if (auth?.role === "admin") {
+    if (auth?.type === "admin") {
         links = admin_links;
     }
 
     return (
         <Nav className="flex-column">
-            {links.map(link => <Link className="nav-link" to={link.to}>{link.name}</Link>)}
+            {links.map(link => <Link key={link.to} className="nav-link" to={link.to}>{link.name}</Link>)}
         </Nav>
     );
 }

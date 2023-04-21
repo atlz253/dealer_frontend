@@ -1,24 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import SideNav from '../components/SideNav';
-import { AuthContext, IAuthContext } from "../context";
+import { FC, useEffect, useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthContext } from "../context";
 import IAuth from "audio_diler_common/interfaces/IAuth";
-import App from "./App";
-import { dealer_routes } from "../configs/routes";
 import { AppRouter } from "./AppRouter";
 import API from "../api/API";
 
 const Root: FC = () => {
   const [auth, setAuth] = useState<IAuth | null>(null);
-
+  
   useEffect(() => {
     let token: string = "";
 
     if (auth !== null && auth.accessToken !== undefined) {
       token = auth.accessToken;
+      
+      API.SetAuthToken(token);
     }
-
-    API.SetAuthToken(token);
   }, [auth]);
 
   useEffect(() => {

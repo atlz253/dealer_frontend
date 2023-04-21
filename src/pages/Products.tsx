@@ -12,6 +12,10 @@ const Products: FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (API.AuthToken === "") {
+            return;
+        }
+
         tryServerRequest(async () => {
             const response: IBaseProduct[] = await API.Products.Get();
 

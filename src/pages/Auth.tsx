@@ -5,35 +5,21 @@ import API from "../api/API";
 import { AuthContext } from "../context";
 import IconButton from "../components/IconButton";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
+import ILoginData from "audio_diler_common/interfaces/ILoginData"
+import tryServerRequest from "../utils/tryServerRequest";
 
 const Auth = () => {
-    const [user, setUser] = useState<IBaseUser>({ login: "", password: "" });
+    const [loginData, setLoginData] = useState<ILoginData>({ login: "", password: "" });
     const { setAuth } = useContext(AuthContext);
 
     const auth = async () => {
-        const response = await API.Login.Login(user);
-
-        if (response === null) {
-
-            return;
-        }
-
-        if (response.status === 400) {
-            alert("Неверный логин или пароль");
-
-            return;
-        }
-
-        if (response.data === undefined) {
-            console.error("Сервер не вернул информацию об авторизации");
-
-            return;
-        }
-
-        sessionStorage.setItem("auth", JSON.stringify(response.data));
-
-        setAuth(response.data);
-        console.log(response);
+        tryServerRequest(async () => {
+            const response = await API.Login.Login(loginData);
+            
+            sessionStorage.setItem("auth", JSON.stringify(response));
+            
+            setAuth(response);
+        });
     }
 
     const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -48,16 +34,16 @@ const Auth = () => {
                 <Form.Control
                     type="text"
                     placeholder="Логин"
-                    value={user.login}
-                    onChange={e => setUser({ ...user, login: e.target.value })}
+                    value={loginData.login}
+                    onChange={e => setLoginData({ ...loginData, login: e.target.value })}
                     onKeyDown={handleEnterKeyDown}
                 />
                 <Form.Control
                     type="password"
                     placeholder="Пароль"
                     className="mt-1"
-                    value={user.password}
-                    onChange={e => setUser({ ...user, password: e.target.value })}
+                    value={loginData.password}
+                    onChange={e => setLoginData({ ...loginData, password: e.target.value })}
                     onKeyDown={handleEnterKeyDown}
                 />
                 <div className="d-flex flex-row-reverse">

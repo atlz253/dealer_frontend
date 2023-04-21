@@ -7,7 +7,7 @@ import { AuthContext, IAuthContext } from "../context";
 
 const Header = () => {
     const navigate = useNavigate();
-    const { setAuth } = useContext<IAuthContext>(AuthContext);
+    const { auth, setAuth } = useContext<IAuthContext>(AuthContext);
 
     const exit = () => {
         sessionStorage.removeItem("auth");
@@ -20,7 +20,7 @@ const Header = () => {
         <Navbar bg="light" className="d-flex flex-row-reverse px-1">
             <IconButton
                 icon={faRightFromBracket}
-                text="Логин"
+                text={auth?.login}
                 variant="light"
                 reverse
                 onClick={exit}
