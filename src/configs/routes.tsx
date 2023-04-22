@@ -10,6 +10,7 @@ import Contract from '../pages/Contract';
 import Product from "../pages/Product";
 import Users from "../pages/Users";
 import User from "../pages/User";
+import BillPage from "../pages/BillPage";
 
 export const dealer_routes: RouteObject[] = [
     {
@@ -47,6 +48,14 @@ export const dealer_routes: RouteObject[] = [
     {
         path: "/bills",
         element: <Bills />
+    },
+    {
+        path: "/bills/:billID",
+        element: <BillPage />
+    },
+    {
+        path: "/bills/new",
+        element: <BillPage newBill />
     }
 ];
 

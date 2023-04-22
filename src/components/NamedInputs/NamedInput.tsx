@@ -12,7 +12,7 @@ interface INamedInputProps {
     name: string,
     value: string,
     disabled?: boolean,
-    onChange: (value: string) => void,
+    onChange?: (value: string) => void,
     type?: NamedInputType,
     rows?: number
 }
@@ -28,7 +28,7 @@ const NamedInput: FC<INamedInputProps> = ({ name, value, onChange, rows, disable
                 as={type === NamedInputType.text ? undefined : "textarea"}
                 value={value}
                 className={classNames(styles.input, "ms-1")}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+                onChange={(onChange === undefined) ? undefined : (e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
                 disabled={disabled}
                 rows={rows}
             />

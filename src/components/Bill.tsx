@@ -1,52 +1,62 @@
 import IBill from 'audio_diler_common/interfaces/IBill';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import NamedInput from './NamedInputs/NamedInput';
+import NamedSelect from "./NamedInputs/NamedSelect";
 
 interface IBillProps {
     bill: IBill,
     setBill: (value: IBill) => void,
     className?: string,
-    isEditMode?: boolean
+    isEditMode?: boolean,
+    newBill?: boolean
 }
 
-const Bill: FC<IBillProps> = ({ bill, setBill, className = "", isEditMode = false }) => {
+const Bill: FC<IBillProps> = ({ bill, setBill, className = "", isEditMode = false, newBill }) => {
     return (
         <div className={className}>
-            <NamedInput 
-                name="Владелец"
-                value={bill.ownerName}
-                onChange={(value: string) => setBill({...bill, ownerName: value})}
-                disabled={isEditMode}
-            />
-            <NamedInput 
-                name="Расчетный счет"
+            {
+                !newBill &&
+                <NamedInput
+                    name="Владелец"
+                    value={bill.ownerName}
+                    disabled={true}
+                />
+            }
+            <NamedInput
+                name="Номер счета"
                 value={bill.billNumber}
-                onChange={(value: string) => setBill({...bill, billNumber: value})}
-                disabled={isEditMode}
+                onChange={(value: string) => setBill({ ...bill, billNumber: value })}
+                disabled={!isEditMode}
             />
-            <NamedInput 
+            <NamedInput
                 name="Банк"
                 value={bill.bankName}
-                onChange={(value: string) => setBill({...bill, bankName: value})}
-                disabled={isEditMode}
+                onChange={(value: string) => setBill({ ...bill, bankName: value })}
+                disabled={!isEditMode}
             />
-            <NamedInput 
+            <NamedInput
                 name="Корр. счет"
                 value={bill.correspondentBill}
-                onChange={(value: string) => setBill({...bill, correspondentBill: value})}
-                disabled={isEditMode}
+                onChange={(value: string) => setBill({ ...bill, correspondentBill: value })}
+                disabled={!isEditMode}
             />
-            <NamedInput 
+            <NamedInput
                 name="БИК"
                 value={bill.BIC}
-                onChange={(value: string) => setBill({...bill, BIC: value})}
-                disabled={isEditMode}
+                onChange={(value: string) => setBill({ ...bill, BIC: value })}
+                disabled={!isEditMode}
             />
-            <NamedInput 
+            <NamedInput
                 name="ИНН"
                 value={bill.INN}
-                onChange={(value: string) => setBill({...bill, INN: value})}
-                disabled={isEditMode}
+                onChange={(value: string) => setBill({ ...bill, INN: value })}
+                disabled={!isEditMode}
+            />
+            <NamedInput
+                name="Действителен до"
+                value={bill.expireDate}
+                onChange={(value: string) => setBill({ ...bill, expireDate: value })}
+                disabled={!isEditMode}
             />
         </div>
     );

@@ -3,11 +3,13 @@ import Contracts from "./Contracts";
 import Login from "./Login";
 import AbstractAPI from "./AbstractAPI";
 import Users from "./Users";
+import Bills from "./Bills";
 
 class API extends AbstractAPI {
     public static SetAuthToken(token: string): void {
         super.SetAuthToken(token);
 
+        Bills.SetAuthToken(token);
         Users.SetAuthToken(token);
         Login.SetAuthToken(token);
         Products.SetAuthToken(token);
@@ -28,6 +30,10 @@ class API extends AbstractAPI {
 
     public static get Users(): typeof Users {
         return Users;
+    }
+
+    public static get Bills(): typeof Bills {
+        return Bills;
     }
 }
 
