@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import IconButton from "./IconButton";
 import { faBan, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-interface IApproveModalProps {
+export interface IApproveModalProps {
     isShow: boolean,
     onHide: () => any,
     onApprove?: () => any | undefined,

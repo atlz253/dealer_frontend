@@ -2,18 +2,18 @@ import IProduct from "audio_diler_common/interfaces/IProduct";
 import { useEffect, useRef, useState, FC } from 'react';
 import API from "../api/API";
 import { useNavigate, useParams } from "react-router-dom";
-import NamedInput, { NamedInputType } from "../components/NamedInputs/NamedInput";
 import { faArrowLeft, faFloppyDisk, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
 import ApproveModal from "../components/ApproveModal";
 import tryServerRequest from "../utils/tryServerRequest";
+import Product from "../components/Product";
 
-interface ProductProps {
+interface ProductPageProps {
     newProduct?: boolean
 }
 
-const Product: FC<ProductProps> = ({ newProduct }) => {
+const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
     const { productID } = useParams();
     const [product, setProduct] = useState<IProduct>({
         id: 0,
@@ -28,7 +28,7 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const productBackup = useRef<IProduct | null>(null);
-    const [price, setPrice] = useState<string>("");
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,16 +50,6 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
             setProduct(product);
         });
     }, []);
-
-    useEffect(() => {
-        if (product === null) {
-            setPrice("");
-
-            return;
-        }
-
-        setPrice(product.price.toString());
-    }, [product]);
 
     const deleteProduct = async () => {
         tryServerRequest(async () => {
@@ -171,51 +161,10 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
 
                 </div>
                 <h1 className="text-center">{product.name}</h1>
-                <NamedInput
-                    name="Наименование"
-                    value={product.name}
-                    onChange={(value: string) => setProduct({ ...product, name: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Категория"
-                    value={product.category}
-                    onChange={(value: string) => setProduct({ ...product, category: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Производитель"
-                    value={product.manufacturer}
-                    onChange={(value: string) => setProduct({ ...product, manufacturer: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Цена"
-                    value={price}
-                    onChange={(value: string) => {
-                        const num = Number(value);
-
-                        if (!Number.isNaN(num) && value[value.length - 1] !== ".") {
-                            setProduct({...product, price: num});
-                        }
-
-                        setPrice(value)
-                    }}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Количество"
-                    value={String(product.quantity)}
-                    onChange={(value: string) => setProduct({ ...product, quantity: Number(value) })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Описание"
-                    value={product.description}
-                    onChange={(value: string) => setProduct({ ...product, description: value })}
-                    disabled={!isEditMode}
-                    type={NamedInputType.textarea}
-                    rows={10}
+                <Product 
+                    product={product}
+                    setProduct={setProduct}
+                    isEditMode={isEditMode}
                 />
             </div>
             <DeleteModal
@@ -239,4 +188,4 @@ const Product: FC<ProductProps> = ({ newProduct }) => {
     );
 }
 
-export default Product;
+export default ProductPage;

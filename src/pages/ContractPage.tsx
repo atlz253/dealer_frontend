@@ -9,10 +9,41 @@ import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
 import ProductsTable, { ProductsIndexing } from "../components/ProductsTable";
 import { AuthContext, IAuthContext } from "../context";
+import Contract from "../components/Contract";
 
-const Contract: FC = () => {
+const ContractPage: FC = () => {
     const { contractID } = useParams();
-    const [contract, setContract] = useState<IContract | null>(null);
+    const [contract, setContract] = useState<IContract>({
+        id: 0,
+        seller: "",
+        buyer: "",
+        price: 123,
+        date: 111,
+        sellerBill: {
+            id: 0,
+            correspondentBill: "",
+            BIC: "",
+            INN: "",
+            ownerName: "",
+            billNumber: "",
+            bankName: "",
+            expireDate: "",
+            ownerType: ""
+        },
+        buyerBill: {
+            id: 1,
+            correspondentBill: "",
+            BIC: "",
+            INN: "",
+            ownerName: "",
+            billNumber: "",
+            bankName: "",
+            expireDate: "",
+            ownerType: ""
+        },
+        products: []
+    });
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -54,13 +85,13 @@ const Contract: FC = () => {
         <>
             <div className="d-flex flex-fill flex-column p-1">
                 <div className="d-flex justify-content-between">
-                    <IconButton 
+                    <IconButton
                         icon={faArrowLeft}
                         variant="secondary"
                         text="Назад"
                         onClick={() => navigate("/contracts")}
                     />
-                    <IconButton 
+                    <IconButton
                         icon={faTrash}
                         variant="danger"
                         text="Удалить"
@@ -70,31 +101,13 @@ const Contract: FC = () => {
                 <h1 className="text-center">
                     Договор №{contract.id}
                 </h1>
-                <h2>
-                    Счет продавца
-                </h2>
-                <Bill
-                    bill={contract.sellerBill}
-                    setBill={(value: IBill) => setContract({ ...contract, sellerBill: value })}
-                    isEditMode={true}
-                />
-                <h2 className="mt-3">
-                    Счет покупателя
-                </h2>
-                <Bill
-                    bill={contract.buyerBill}
-                    setBill={(value: IBill) => setContract({ ...contract, buyerBill: value })}
-                    isEditMode={true}
-                />
-                <h2 className="mt-3">
-                    Товары
-                </h2>
-                <ProductsTable 
-                    products={contract.products}
-                    indexing={ProductsIndexing.number}
+                <Contract
+                    contract={contract}
+                    setContract={setContract}
+                    isEditMode={isEditMode}
                 />
             </div>
-            <DeleteModal 
+            <DeleteModal
                 isShow={deleteModalShow}
                 onHide={() => setDeleteModalShow(false)}
                 title="Удаление договора"
@@ -105,4 +118,4 @@ const Contract: FC = () => {
     );
 }
 
-export default Contract;
+export default ContractPage;

@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import IconButton from "./IconButton";
 import { faBan, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-interface IDeleteModalProps {
+export interface IDeleteModalProps {
     isShow: boolean,
     onHide: () => any,
     onDelete?: () => any | undefined,

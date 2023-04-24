@@ -6,8 +6,8 @@ import Providers from '../pages/Providers';
 import Clients from '../pages/Clients';
 import Products from '../pages/Products';
 import Bills from '../pages/Bills';
-import Contract from '../pages/Contract';
-import Product from "../pages/Product";
+import ContractPage from '../pages/ContractPage';
+import ProductPage from "../pages/ProductPage";
 import Users from "../pages/Users";
 import User from "../pages/User";
 import BillPage from "../pages/BillPage";
@@ -23,7 +23,7 @@ export const dealer_routes: RouteObject[] = [
     },
     {
         path: "/contracts/:contractID",
-        element: <Contract />
+        element: <ContractPage />
     },
     {
         path: "/providers",
@@ -39,11 +39,11 @@ export const dealer_routes: RouteObject[] = [
     },
     {
         path: "/products/new",
-        element: <Product newProduct />
+        element: <ProductPage newProduct />
     },
     {
         path: "/products/:productID",
-        element: <Product />
+        element: <ProductPage />
     },
     {
         path: "/bills",
