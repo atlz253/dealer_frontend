@@ -4,6 +4,7 @@ import Login from "./Login";
 import AbstractAPI from "./AbstractAPI";
 import Users from "./Users";
 import Bills from "./Bills";
+import Clients from "./Clients";
 
 class API extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -12,6 +13,7 @@ class API extends AbstractAPI {
         Bills.SetAuthToken(token);
         Users.SetAuthToken(token);
         Login.SetAuthToken(token);
+        Clients.SetAuthToken(token);
         Products.SetAuthToken(token);
         Contracts.SetAuthToken(token);
     }
@@ -34,6 +36,10 @@ class API extends AbstractAPI {
 
     public static get Bills(): typeof Bills {
         return Bills;
+    }
+
+    public static get Clients(): typeof Clients {
+        return Clients;
     }
 }
 
