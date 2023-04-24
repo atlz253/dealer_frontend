@@ -8,6 +8,7 @@ import DeleteModal from "../components/DeleteModal";
 import ApproveModal from "../components/ApproveModal";
 import tryServerRequest from "../utils/tryServerRequest";
 import Product from "../components/Product";
+import ItemPage from "../components/ItemPage";
 
 interface ProductPageProps {
     newProduct?: boolean
@@ -28,7 +29,7 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const productBackup = useRef<IProduct | null>(null);
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
     const deleteProduct = async () => {
         tryServerRequest(async () => {
             await API.Products.DeleteProduct(product.id)
-    
+
             navigate("/products");
         });
     }
@@ -65,7 +66,7 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
         tryServerRequest(async () => {
             if (newProduct) {
                 const response = await API.Products.CreateProduct(product);
-    
+
                 setProduct({ ...product, id: response.id });
             }
             else {
@@ -90,9 +91,9 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
         }
 
         const product = productBackup.current;
-        
+
         productBackup.current = null;
-        
+
         if (product !== null) {
             setProduct(product);
         }
@@ -122,69 +123,36 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
     }
 
     return (
-        <>
-            <div className="d-flex flex-fill flex-column p-1">
-                <div className="d-flex justify-content-between">
-                    <IconButton
-                        icon={faArrowLeft}
-                        variant="secondary"
-                        text="Назад"
-                        onClick={backClick}
-                    />
-                    {
-                        isEditMode ?
-                            <div>
-                                <IconButton
-                                    icon={faFloppyDisk}
-                                    variant="success"
-                                    text="Сохранить"
-                                    onClick={saveProduct}
-                                />
-                            </div>
-                            :
-                            <div>
-                                <IconButton
-                                    icon={faPen}
-                                    variant="secondary"
-                                    text="Изменить"
-                                    onClick={editProduct}
-                                />
-                                <IconButton
-                                    icon={faTrash}
-                                    variant="danger"
-                                    text="Удалить"
-                                    onClick={() => setDeleteModalShow(true)}
-                                    className="ms-1"
-                                />
-                            </div>
-                    }
-
-                </div>
-                <h1 className="text-center">{product.name}</h1>
-                <Product 
-                    product={product}
-                    setProduct={setProduct}
-                    isEditMode={isEditMode}
-                />
-            </div>
-            <DeleteModal
-                isShow={deleteModalShow}
-                onHide={() => setDeleteModalShow(false)}
-                title="Удаление товара"
-                body={`Вы действительно хотите удалить ${product.name}?`}
-                onDelete={deleteProduct}
+        <ItemPage
+            deleteModalProps={{
+                isShow: deleteModalShow,
+                onHide: () => setDeleteModalShow(false),
+                title: "Удаление товара",
+                body: `Вы действительно хотите удалить ${product.name}?`,
+                onDelete: deleteProduct
+            }}
+            cancelModalProps={{
+                isShow: cancelEditModalShow,
+                onHide: () => setCancelEditModalShow(false),
+                title: "Отмена изменений",
+                body: "Вы точно хотите отменить редактирование? Измененные данные не сохранятся.",
+                onApprove: abortEdit
+            }}
+            itemPageBarProps={{
+                isEditMode,
+                backClickAction: backClick,
+                saveClickAction: saveProduct,
+                editClickAction: editProduct,
+                deleteClickAction: deleteProduct
+            }}
+        >
+            <h1 className="text-center">{product.name}</h1>
+            <Product
+                product={product}
+                setProduct={setProduct}
+                isEditMode={isEditMode}
             />
-            {
-                isEditMode &&
-                <ApproveModal
-                    isShow={cancelEditModalShow}
-                    onHide={() => setCancelEditModalShow(false)}
-                    title="Отмена изменений"
-                    body="Вы точно хотите отменить редактирование? Измененные данные не сохранятся."
-                    onApprove={abortEdit}
-                />
-            }
-        </>
+        </ItemPage>
     );
 }
 

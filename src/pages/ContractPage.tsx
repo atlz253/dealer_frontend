@@ -10,6 +10,7 @@ import DeleteModal from "../components/DeleteModal";
 import ProductsTable, { ProductsIndexing } from "../components/ProductsTable";
 import { AuthContext, IAuthContext } from "../context";
 import Contract from "../components/Contract";
+import ItemPage from '../components/ItemPage';
 
 const ContractPage: FC = () => {
     const { contractID } = useParams();
@@ -82,39 +83,33 @@ const ContractPage: FC = () => {
     }
 
     return (
-        <>
-            <div className="d-flex flex-fill flex-column p-1">
-                <div className="d-flex justify-content-between">
-                    <IconButton
-                        icon={faArrowLeft}
-                        variant="secondary"
-                        text="Назад"
-                        onClick={() => navigate("/contracts")}
-                    />
-                    <IconButton
-                        icon={faTrash}
-                        variant="danger"
-                        text="Удалить"
-                        onClick={() => setDeleteModalShow(true)}
-                    />
-                </div>
-                <h1 className="text-center">
-                    Договор №{contract.id}
-                </h1>
-                <Contract
-                    contract={contract}
-                    setContract={setContract}
-                    isEditMode={isEditMode}
-                />
-            </div>
-            <DeleteModal
-                isShow={deleteModalShow}
-                onHide={() => setDeleteModalShow(false)}
-                title="Удаление договора"
-                body={`Вы действительно хотите удалить договор №${contract.id}?`}
-                onDelete={deleteContract}
+        <ItemPage
+            deleteModalProps={{
+                isShow: deleteModalShow,
+                onHide: () => setDeleteModalShow(false),
+                title: "Удаление договора",
+                body: `Вы действительно хотите удалить договор №${contract.id}?`
+            }}
+            cancelModalProps={{
+                isShow: false,
+                onHide: () => {},
+                title: "",
+                body: ""
+            }}
+            itemPageBarProps={{
+                isEditMode: false,
+                backClickAction: () => navigate("/contracts"),
+            }}
+        >
+            <h1 className="text-center">
+                Договор №{contract.id}
+            </h1>
+            <Contract
+                contract={contract}
+                setContract={setContract}
+                isEditMode={isEditMode}
             />
-        </>
+        </ItemPage>
     );
 }
 
