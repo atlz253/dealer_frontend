@@ -3,37 +3,31 @@ import { FC, useState, useEffect, useRef } from "react";
 import ApproveModal from "../components/ApproveModal";
 import DeleteModal from "../components/DeleteModal";
 import IconButton from "../components/IconButton";
-import NamedInput, { NamedInputType } from "../components/NamedInputs/NamedInput";
-import IUser from "audio_diler_common/interfaces/IUser";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form } from "react-bootstrap";
-import NamedSelect from "../components/NamedInputs/NamedSelect";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import { DateTime } from "luxon";
+import IDealer from "audio_diler_common/interfaces/IDealer";
+import User from "../components/User";
+import IUser from "audio_diler_common/interfaces/IUser";
 
 interface IUserProps {
     newUser?: boolean
 }
 
-const User: FC<IUserProps> = ({ newUser }) => {
+const UserPage: FC<IUserProps> = ({ newUser }) => {
     const { userID } = useParams();
-    const [user, setUser] = useState<IUser>({
+    const [user, setUser] = useState<IUser | IDealer>({
         id: 0,
-        name: "",
-        birthday: String(DateTime.now().toISODate()),
-        login: "",
-        password: "",
+        firstName: "",
         type: "dealer",
-        employmentDate: String(DateTime.now().toISODate())
+        login: "",
+        password: ""
     });
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const [cancelEditModalShow, setCancelEditModalShow] = useState<boolean>(false);
     const navigate = useNavigate();
-    const [birthday, setBirthday] = useState<string>("");
-    const [employmentDate, setEmploymentDate] = useState<string>("");
-    const userBackup = useRef<IUser | null>(null);
+    const userBackup = useRef<IUser | IDealer | null>(null);
 
     useEffect(() => {
         if (newUser) {
@@ -54,11 +48,6 @@ const User: FC<IUserProps> = ({ newUser }) => {
             setUser(user);
         });
     }, []);
-
-    useEffect(() => {
-        setBirthday(user.birthday === null ? "" : DateTime.fromISO(user.birthday).toLocaleString());
-        setEmploymentDate(DateTime.fromISO(user.employmentDate).toLocaleString());
-    }, [user]);
 
     const backClick = () => {
         if (isEditMode) {
@@ -118,7 +107,7 @@ const User: FC<IUserProps> = ({ newUser }) => {
         navigate("/users");
     }
 
-    return (
+    return ( // FIXME: переписать с использванием компонента ItemPage
         <>
             <div className="d-flex flex-fill flex-column p-1">
                 <div className="d-flex justify-content-between">
@@ -160,61 +149,12 @@ const User: FC<IUserProps> = ({ newUser }) => {
                     }
 
                 </div>
-                <h1 className="text-center">{user.name}</h1>
-                <NamedInput
-                    name="Имя пользователя"
-                    value={user.name}
-                    onChange={(value: string) => setUser({ ...user, name: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Логин"
-                    value={user.login}
-                    onChange={(value: string) => setUser({ ...user, login: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="Пароль"
-                    value={user.password}
-                    onChange={(value: string) => setUser({ ...user, password: value })}
-                    disabled={!isEditMode}
-                />
-                <NamedSelect
-                    name="Тип пользователя"
-                    disabled={!isEditMode}
-                    onChange={e => setUser({ ...user, type: e.target.value })}
-                    value={user.type}
-                >
-                    <option value="dealer">Дилер</option>
-                    <option value="admin">Администратор</option>
-                </NamedSelect>
-                <NamedInput
-                    name="Принят на работу"
-                    value={employmentDate}
-                    onChange={value => {
-                        const date = DateTime.fromFormat(value, "d.M.yy");
-
-                        if (date.isValid) {
-                            user.employmentDate = String(date.toISODate());
-                        }
-
-                        setEmploymentDate(value);
-                    }}
-                    disabled={!isEditMode}
-                />
-                <NamedInput
-                    name="День рождения"
-                    value={birthday}
-                    onChange={value => {
-                        const date = DateTime.fromFormat(value, "d.M.yy");
-
-                        if (date.isValid) {
-                            user.birthday = String(date.toISODate());
-                        }
-
-                        setBirthday(value);
-                    }}
-                    disabled={!isEditMode}
+                <h1 className="text-center">{user.firstName}</h1>
+                <User
+                    user={user}
+                    setUser={setUser}
+                    isEditMode={isEditMode}
+                    isNewUser={newUser}
                 />
             </div>
             {
@@ -223,7 +163,7 @@ const User: FC<IUserProps> = ({ newUser }) => {
                     isShow={deleteModalShow}
                     onHide={() => setDeleteModalShow(false)}
                     title="Удаление учётной записи"
-                    body={`Вы действительно хотите удалить учётную запись пользователя ${user.name}?`}
+                    body={`Вы действительно хотите удалить учётную запись пользователя ${user.firstName}?`}
                     onDelete={deleteUser}
                 />
             }
@@ -241,4 +181,4 @@ const User: FC<IUserProps> = ({ newUser }) => {
     );
 }
 
-export default User;
+export default UserPage;

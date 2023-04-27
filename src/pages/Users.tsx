@@ -3,12 +3,12 @@ import IconButton from "../components/IconButton";
 import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import IBaseUser from "audio_diler_common/interfaces/IBaseUser";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
+import IUser from "audio_diler_common/interfaces/IUser";
 
 const Users = () => {
-    const [users, setUsers] = useState<IBaseUser[]>([]);
+    const [users, setUsers] = useState<IUser[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,7 +20,6 @@ const Users = () => {
             const users = await API.Users.Get();
 
             console.log(users);
-
 
             setUsers(users);
         });
@@ -43,21 +42,19 @@ const Users = () => {
                         <th>Имя</th>
                         <th>Логин</th>
                         <th>Тип</th>
-                        <th>Дата найма</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user: IBaseUser) =>
+                    {users.map((user) =>
                         <tr
                             key={user.id}
                             onClick={() => navigate(`/users/${user.id}`)}
                             style={{ cursor: "pointer" }}
                         >
                             <td>{user.id}</td>
-                            <td>{user.name}</td>
+                            <td>{user.firstName}</td>
                             <td>{user.login}</td>
                             <td>{user.type}</td>
-                            <td>{new Date(user.employmentDate).toLocaleDateString()}</td>
                         </tr>
                     )}
                 </tbody>

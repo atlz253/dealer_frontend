@@ -9,7 +9,7 @@ import Bills from '../pages/Bills';
 import ContractPage from '../pages/ContractPage';
 import ProductPage from "../pages/ProductPage";
 import Users from "../pages/Users";
-import User from "../pages/User";
+import UserPage from "../pages/UserPage";
 import BillPage from "../pages/BillPage";
 
 export const dealer_routes: RouteObject[] = [
@@ -70,10 +70,10 @@ export const admin_routes: RouteObject[] = [
     },
     {
         path: "/users/:userID",
-        element: <User />
+        element: <UserPage />
     },
     {
         path: "/users/new",
-        element: <User newUser />
+        element: <UserPage newUser />
     }
 ]

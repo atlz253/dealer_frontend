@@ -10,7 +10,7 @@ export enum NamedInputType {
 
 interface INamedInputProps {
     name: string,
-    value: string,
+    value?: string,
     disabled?: boolean,
     onChange?: (value: string) => void,
     type?: NamedInputType,

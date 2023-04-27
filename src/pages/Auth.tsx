@@ -1,15 +1,14 @@
-import IBaseUser from "audio_diler_common/interfaces/IBaseUser";
 import React, { ChangeEvent, useContext, useState, KeyboardEvent } from 'react';
 import { Button, Form } from "react-bootstrap";
 import API from "../api/API";
 import { AuthContext } from "../context";
 import IconButton from "../components/IconButton";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
-import ILoginData from "audio_diler_common/interfaces/ILoginData"
 import tryServerRequest from "../utils/tryServerRequest";
+import IAuthorization from 'audio_diler_common/interfaces/IAuthorization';
 
 const Auth = () => {
-    const [loginData, setLoginData] = useState<ILoginData>({ login: "", password: "" });
+    const [loginData, setLoginData] = useState<IAuthorization>({ login: "", password: "" });
     const { setAuth } = useContext(AuthContext);
 
     const auth = async () => {
