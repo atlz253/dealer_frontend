@@ -54,7 +54,7 @@ const User: FC<IUserProps> = ({ user, setUser, isEditMode, isNewUser }) => {
             />
             <NamedSelect
                 name="Тип пользователя"
-                disabled={!isNewUser}
+                disabled={!isNewUser || !isEditMode}
                 onChange={event => setUser({ ...user, type: event.target.value })}
                 value={user.type}
             >
@@ -77,7 +77,7 @@ const User: FC<IUserProps> = ({ user, setUser, isEditMode, isNewUser }) => {
 
                         setEmploymentDate(value);
                     }}
-                    disabled={!isNewUser}
+                    disabled={!isNewUser || !isEditMode}
                 />
             }
         </div>
