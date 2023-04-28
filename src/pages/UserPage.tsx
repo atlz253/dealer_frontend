@@ -9,6 +9,7 @@ import API from "../api/API";
 import IDealer from "audio_diler_common/interfaces/IDealer";
 import User from "../components/User";
 import IUser from "audio_diler_common/interfaces/IUser";
+import ItemPage from "../components/ItemPage";
 
 interface IUserProps {
     newUser?: boolean
@@ -107,77 +108,38 @@ const UserPage: FC<IUserProps> = ({ newUser }) => {
         navigate("/users");
     }
 
-    return ( // FIXME: переписать с использванием компонента ItemPage
-        <>
-            <div className="d-flex flex-fill flex-column p-1">
-                <div className="d-flex justify-content-between">
-                    <IconButton
-                        icon={faArrowLeft}
-                        variant="secondary"
-                        text="Назад"
-                        onClick={backClick}
-                    />
-                    {
-                        isEditMode ?
-                            <div>
-                                <IconButton
-                                    icon={faFloppyDisk}
-                                    variant="success"
-                                    text="Сохранить"
-                                    onClick={saveUser}
-                                />
-                            </div>
-                            :
-                            <div>
-                                <IconButton
-                                    icon={faPen}
-                                    variant="secondary"
-                                    text="Изменить"
-                                    onClick={editUser}
-                                />
-                                {
-                                    user.id !== 1 && // аккаунт первого администратора удалить нельзя
-                                    <IconButton
-                                        icon={faTrash}
-                                        variant="danger"
-                                        text="Удалить"
-                                        onClick={() => setDeleteModalShow(true)}
-                                        className="ms-1"
-                                    />
-                                }
-                            </div>
-                    }
-
-                </div>
-                <h1 className="text-center">{user.firstName}</h1>
-                <User
-                    user={user}
-                    setUser={setUser}
-                    isEditMode={isEditMode}
-                    isNewUser={newUser}
-                />
-            </div>
-            {
-                deleteModalShow &&
-                <DeleteModal
-                    isShow={deleteModalShow}
-                    onHide={() => setDeleteModalShow(false)}
-                    title="Удаление учётной записи"
-                    body={`Вы действительно хотите удалить учётную запись пользователя ${user.firstName}?`}
-                    onDelete={deleteUser}
-                />
-            }
-            {
-                isEditMode &&
-                <ApproveModal
-                    isShow={cancelEditModalShow}
-                    onHide={() => setCancelEditModalShow(false)}
-                    title="Отмена изменений"
-                    body="Вы точно хотите отменить редактирование? Измененные данные не сохранятся."
-                    onApprove={abortEdit}
-                />
-            }
-        </>
+    return (
+        <ItemPage
+            deleteModalProps={{
+                isShow: deleteModalShow,
+                onHide: () => setDeleteModalShow(false), // TODO: setIsShow
+                title: "Удаление учётной записи",
+                body: `Вы действительно хотите удалить учётную запись пользователя ${user.firstName}?`,
+                onDelete: deleteUser
+            }}
+            cancelModalProps={{
+                isShow: cancelEditModalShow,
+                onHide: () => setCancelEditModalShow(false),
+                title: "Отмена изменений",
+                body: "Вы точно хотите отменить редактирование? Измененные данные не сохранятся.",
+                onApprove: abortEdit
+            }}
+            itemPageBarProps={{
+                isEditMode: isEditMode,
+                backClickAction: backClick,
+                saveClickAction: saveUser,
+                editClickAction: editUser,
+                deleteClickAction: () => setDeleteModalShow(true)
+            }}
+        >
+            <h1 className="text-center">{user.firstName}</h1>
+            <User
+                user={user}
+                setUser={setUser}
+                isEditMode={isEditMode}
+                isNewUser={newUser}
+            />
+        </ItemPage>
     );
 }
 
