@@ -126,7 +126,7 @@ const BillPage: FC<IBillProps> = ({ newBill }) => {
                 backClickAction: backClick,
                 saveClickAction: saveBill,
                 editClickAction: editBill,
-                deleteClickAction: deleteBill
+                deleteClickAction: () => setDeleteModalShow(true)
             }}
         >
             <h1 className="text-center">{bill.billNumber}</h1>
