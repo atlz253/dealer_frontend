@@ -109,14 +109,14 @@ const BillPage: FC<IBillProps> = ({ newBill }) => {
         <ItemPage
             deleteModalProps={{
                 isShow: deleteModalShow,
-                onHide: () => setDeleteModalShow(false),
+                setIsShow: setDeleteModalShow,
                 title: "Удаление счета",
                 body: `Вы действительно хотите удалить счет ${bill.billNumber}?`,
                 onDelete: deleteBill
             }}
             cancelModalProps={{
                 isShow: cancelEditModalShow,
-                onHide: () => setCancelEditModalShow(false),
+                setIsShow: setCancelEditModalShow,
                 title: "Отмена изменений",
                 body: "Вы точно хотите отменить редактирование? Измененные данные не сохранятся.",
                 onApprove: abortEdit

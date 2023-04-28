@@ -86,13 +86,13 @@ const ContractPage: FC = () => {
         <ItemPage
             deleteModalProps={{
                 isShow: deleteModalShow,
-                onHide: () => setDeleteModalShow(false),
+                setIsShow: setDeleteModalShow,
                 title: "Удаление договора",
                 body: `Вы действительно хотите удалить договор №${contract.id}?`
             }}
             cancelModalProps={{
                 isShow: false,
-                onHide: () => {},
+                setIsShow: (value) => {},
                 title: "",
                 body: ""
             }}

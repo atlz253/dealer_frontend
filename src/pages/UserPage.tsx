@@ -112,14 +112,14 @@ const UserPage: FC<IUserProps> = ({ newUser }) => {
         <ItemPage
             deleteModalProps={{
                 isShow: deleteModalShow,
-                onHide: () => setDeleteModalShow(false), // TODO: setIsShow
+                setIsShow: setDeleteModalShow,
                 title: "Удаление учётной записи",
                 body: `Вы действительно хотите удалить учётную запись пользователя ${user.firstName}?`,
                 onDelete: deleteUser
             }}
             cancelModalProps={{
                 isShow: cancelEditModalShow,
-                onHide: () => setCancelEditModalShow(false),
+                setIsShow: setCancelEditModalShow,
                 title: "Отмена изменений",
                 body: "Вы точно хотите отменить редактирование? Измененные данные не сохранятся.",
                 onApprove: abortEdit

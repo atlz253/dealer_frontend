@@ -1,19 +1,19 @@
-import React, { FC } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import IconButton from "./IconButton";
 import { faBan, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export interface IApproveModalProps {
     isShow: boolean,
-    onHide: () => any,
+    setIsShow: Dispatch<SetStateAction<boolean>>,
     onApprove?: () => any | undefined,
     title: string,
     body: string
 }
 
-const ApproveModal: FC<IApproveModalProps> = ({ isShow, onHide, title, body, onApprove = undefined }) => {
+const ApproveModal: FC<IApproveModalProps> = ({ isShow, setIsShow, title, body, onApprove = undefined }) => {
     return (
-        <Modal show={isShow} onHide={onHide}>
+        <Modal show={isShow} onHide={() => setIsShow(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {title}
@@ -29,7 +29,7 @@ const ApproveModal: FC<IApproveModalProps> = ({ isShow, onHide, title, body, onA
                     icon={faBan}
                     variant="secondary"
                     text="Отмена"
-                    onClick={onHide}
+                    onClick={() => setIsShow(false)}
                 />
                 <IconButton
                     icon={faCheck}
