@@ -47,15 +47,6 @@ const BillPage: FC<IBillProps> = ({ newBill }) => {
         });
     }, []);
 
-    const backClick = () => {
-        if (isEditMode) {
-            setCancelEditModalShow(true);
-        }
-        else {
-            navigate("/bills");
-        }
-    }
-
     const abortEdit = () => {
         if (newBill) {
             navigate("/bills");
@@ -123,7 +114,8 @@ const BillPage: FC<IBillProps> = ({ newBill }) => {
             }}
             itemPageBarProps={{
                 isEditMode: isEditMode,
-                backClickAction: backClick,
+                backClickAction: () => navigate("/bills"),
+                cancelEditClickAction: () => setCancelEditModalShow(true),
                 saveClickAction: saveBill,
                 editClickAction: editBill,
                 deleteClickAction: () => setDeleteModalShow(true)

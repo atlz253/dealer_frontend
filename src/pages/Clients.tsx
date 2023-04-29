@@ -30,7 +30,7 @@ const Clients: FC = () => {
                     icon={faPlus}
                     text="Добавить"
                     className="ms-1"
-                    // onClick={() => navigate("/bills/new")}
+                    onClick={() => navigate("/clients/new")}
                 />
             </div>
             <Table hover>
@@ -46,7 +46,7 @@ const Clients: FC = () => {
                     {clients.map(client =>
                         <tr
                             key={client.id} 
-                            // onClick={() => navigate(`/bills/${bill.id}`)}
+                            onClick={() => navigate(`/clients/${client.id}`)}
                             style={{ cursor: "pointer" }}
                             title={`Нажмите, чтобы перейти к просмотру клиента ${client.id}`}
                         >

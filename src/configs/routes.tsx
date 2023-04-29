@@ -5,12 +5,13 @@ import Index from '../pages/Index';
 import Providers from '../pages/Providers';
 import Clients from '../pages/Clients';
 import Products from '../pages/Products';
-import Bills from '../pages/Bills';
+import Bills from '../pages/BillsPage';
 import ContractPage from '../pages/ContractPage';
 import ProductPage from "../pages/ProductPage";
 import Users from "../pages/Users";
 import UserPage from "../pages/UserPage";
 import BillPage from "../pages/BillPage";
+import ClientPage from '../pages/ClientPage';
 
 export const dealer_routes: RouteObject[] = [
     {
@@ -32,6 +33,14 @@ export const dealer_routes: RouteObject[] = [
     {
         path: "/clients",
         element: <Clients />
+    },
+    {
+        path: "/clients/new",
+        element: <ClientPage newClient />
+    },
+    {
+        path: "/clients/:clientID",
+        element: <ClientPage />
     },
     {
         path: "/products",

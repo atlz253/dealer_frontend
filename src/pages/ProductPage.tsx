@@ -105,15 +105,6 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
         setCancelEditModalShow(false);
     }
 
-    const backClick = () => {
-        if (isEditMode) {
-            setCancelEditModalShow(true);
-        }
-        else {
-            navigate("/products");
-        }
-    }
-
     if (product === null) {
         return (
             <h1>
@@ -140,7 +131,8 @@ const ProductPage: FC<ProductPageProps> = ({ newProduct }) => {
             }}
             itemPageBarProps={{
                 isEditMode,
-                backClickAction: backClick,
+                backClickAction: () => navigate("/products"),
+                cancelEditClickAction: () => setCancelEditModalShow(true),
                 saveClickAction: saveProduct,
                 editClickAction: editProduct,
                 deleteClickAction: deleteProduct

@@ -50,15 +50,6 @@ const UserPage: FC<IUserProps> = ({ newUser }) => {
         });
     }, []);
 
-    const backClick = () => {
-        if (isEditMode) {
-            setCancelEditModalShow(true);
-        }
-        else {
-            navigate("/users");
-        }
-    }
-
     const abortEdit = () => {
         if (newUser) {
             navigate("/users");
@@ -126,7 +117,8 @@ const UserPage: FC<IUserProps> = ({ newUser }) => {
             }}
             itemPageBarProps={{
                 isEditMode: isEditMode,
-                backClickAction: backClick,
+                backClickAction: () => navigate("/users"),
+                cancelEditClickAction: () => setCancelEditModalShow(true),
                 saveClickAction: saveUser,
                 editClickAction: editUser,
                 deleteClickAction: () => setDeleteModalShow(true)
