@@ -5,6 +5,7 @@ import { baseURL } from "./APIconfig";
 import ID from "audio_diler_common/interfaces/ID";
 import IClient from "audio_diler_common/interfaces/IClient";
 import ClientBills from "./ClientBills";
+import IName from "audio_diler_common/interfaces/IName";
 
 class Clients extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -17,10 +18,13 @@ class Clients extends AbstractAPI {
         return ClientBills;
     }
 
-    public static async Get(): Promise<IBaseClient[]> {
+    public static async Get(onlyNames?: boolean): Promise<IBaseClient[] | IName[]> {
         const response = await axios.get<IBaseClient[]>(baseURL + "/clients", {
             headers: {
                 authorization: this.authToken
+            },
+            params: {
+                onlyNames
             }
         });
 

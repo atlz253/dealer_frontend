@@ -23,6 +23,10 @@ export const dealer_routes: RouteObject[] = [
         element: <Contracts />
     },
     {
+        path: "/contracts/new",
+        element: <ContractPage newContract />
+    },
+    {
         path: "/contracts/:contractID",
         element: <ContractPage />
     },

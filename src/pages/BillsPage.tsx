@@ -19,7 +19,7 @@ const Bills: FC = () => {
         tryServerRequest(async () => {
             const bills = await API.Bills.Get();
 
-            setBills(bills);
+            setBills(bills as IBaseBill[]);
         });
     }, []);
 

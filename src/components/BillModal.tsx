@@ -83,7 +83,6 @@ const BillModal: FC<IBillModalProps> = ({ bill, setBill, isShow, setIsShow, newB
                             saveClickAction={saveClick}
                             deleteClickAction={() => setDeleteModalShow(true)}
                             cancelEditClickAction={() => setCancelEditModalShow(true)}
-                            isNewItem={newBill}
                         />
                     </div>
                 </Modal.Footer>

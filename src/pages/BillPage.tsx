@@ -20,8 +20,7 @@ const BillPage: FC<IBillProps> = ({ newBill }) => {
         ownerName: "",
         billNumber: "",
         bankName: "",
-        expireDate: "",
-        ownerType: ""
+        expireDate: ""
     });
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);

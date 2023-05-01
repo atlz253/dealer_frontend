@@ -19,7 +19,7 @@ const Clients: FC = () => {
         tryServerRequest(async () => {
             const clients = await API.Clients.Get();
 
-            setClients(clients);
+            setClients(clients as IBaseClient[]);
         });
     }, []);
 

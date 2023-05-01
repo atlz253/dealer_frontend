@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Client from "../components/Client";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import Categories from "../components/ItemAccordion/Categories";
+import Categories from "../components/Categories/Categories";
 import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
 import BillsTable from "../components/BillsTable";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -46,8 +46,7 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
         ownerName: "",
         billNumber: "",
         bankName: "",
-        expireDate: "",
-        ownerType: ""
+        expireDate: ""
     });
     const [newBill, setNewBill] = useState<boolean>(false);
 
@@ -126,7 +125,7 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
         tryServerRequest(async () => {
             const bills = await API.Clients.Bills.Get(Number(clientID));
 
-            setBills(bills);
+            setBills(bills as IBaseBill[]);
         });
     }
 
@@ -141,8 +140,7 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
             ownerName: "",
             billNumber: "",
             bankName: "",
-            expireDate: "",
-            ownerType: ""
+            expireDate: ""
         });
 
         setEditBillModal(true);

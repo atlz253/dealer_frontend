@@ -4,12 +4,16 @@ import ID from "audio_diler_common/interfaces/ID";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
 import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
+import IBillNumber from "audio_diler_common/interfaces/IBillNumber";
 
 class ClientBills extends AbstractAPI {
-    public static async Get(clientID: number): Promise<IBaseBill[]> {
+    public static async Get(clientID: number, onlyBillNumbers?: boolean): Promise<IBaseBill[] | IBillNumber[]> {
         const request = await axios.get<IBaseBill[]>(baseURL + "/clients/" + clientID + "/bills", {
             headers: {
                 authorization: this.authToken
+            },
+            params: {
+                onlyBillNumbers
             }
         });
 

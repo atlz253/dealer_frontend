@@ -6,7 +6,6 @@ import classNames from "classnames";
 
 export interface IItemPageBar {
     isEditMode?: boolean,
-    isNewItem?: boolean,
     backClickAction?: () => any,
     saveClickAction?: () => any,
     editClickAction?: () => any,
@@ -14,11 +13,12 @@ export interface IItemPageBar {
     cancelEditClickAction?: () => any
 }
 
-const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, isNewItem, saveClickAction, editClickAction, deleteClickAction, cancelEditClickAction }) => {
+// TODO: доделать условия появления кнопки назад и отмена
+const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, saveClickAction, editClickAction, deleteClickAction, cancelEditClickAction }) => {
     return (
-        <div className={classNames("d-flex", (backClickAction === undefined && !isEditMode || isNewItem) ? "justify-content-end" : "justify-content-between")}>
+        <div className={classNames("d-flex", (backClickAction === undefined && !isEditMode) ? "justify-content-end" : "justify-content-between")}>
             {
-                backClickAction !== undefined && !isEditMode &&
+                backClickAction !== undefined && (!isEditMode) &&
                 <IconButton
                     icon={faArrowLeft}
                     variant="secondary"
@@ -27,11 +27,11 @@ const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, isNewItem,
                 />
             }
             {
-                isEditMode && !isNewItem &&
+                isEditMode &&
                 <IconButton
                     icon={faBan}
                     variant="secondary"
-                    text="Отменить"
+                    text="Отмена"
                     onClick={cancelEditClickAction}
                 />
             }

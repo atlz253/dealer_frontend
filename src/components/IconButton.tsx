@@ -23,9 +23,12 @@ const IconButton: FC<IIconButtonProps> = ({ icon, variant, reverse, text = "", o
     return (
         <Button variant={variant} onClick={onClick} className={classNames(rootClasses)}>
             <FontAwesomeIcon icon={icon} />
-            <span className={reverse ? "me-1" : "ms-1"}>
-                {text}
-            </span>
+            {
+                text &&
+                <span className={reverse ? "me-1" : "ms-1"}>
+                    {text}
+                </span>
+            }
         </Button>
     );
 }

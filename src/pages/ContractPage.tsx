@@ -11,15 +11,22 @@ import ProductsTable, { ProductsIndexing } from "../components/ProductsTable";
 import { AuthContext, IAuthContext } from "../context";
 import Contract from "../components/Contract";
 import ItemPage from '../components/ItemPage';
+import tryServerRequest from '../utils/tryServerRequest';
+import INewContract from 'audio_diler_common/interfaces/INewContract';
+import IProductQuantity from 'audio_diler_common/interfaces/IProductQuantity';
 
-const ContractPage: FC = () => {
+interface IContractPageProps {
+    newContract?: boolean
+}
+
+const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
     const { contractID } = useParams();
     const [contract, setContract] = useState<IContract>({
         id: 0,
-        seller: "",
-        buyer: "",
-        price: 123,
-        date: 111,
+        sellerName: "",
+        buyerName: "",
+        price: 0,
+        created: "",
         sellerBill: {
             id: 0,
             correspondentBill: "",
@@ -28,8 +35,7 @@ const ContractPage: FC = () => {
             ownerName: "",
             billNumber: "",
             bankName: "",
-            expireDate: "",
-            ownerType: ""
+            expireDate: ""
         },
         buyerBill: {
             id: 1,
@@ -39,47 +45,65 @@ const ContractPage: FC = () => {
             ownerName: "",
             billNumber: "",
             bankName: "",
-            expireDate: "",
-            ownerType: ""
+            expireDate: ""
         },
         products: []
     });
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
+    const [cancelModalShow, setCancelModalShow] = useState<boolean>(false);
     const navigate = useNavigate();
 
+    const getContract = (id: number) => {
+        tryServerRequest(async () => {
+            const contract = await API.Contracts.GetByID(id);
+
+            setContract(contract);
+        });
+    }
+
     useEffect(() => {
-        const fetch = async () => {
-            if (contractID === undefined) {
-                console.error("Не удалось получить ID контракта");
+        if (newContract) {
+            setIsEditMode(true);
 
-                return;
-            }
-
-            const response = await API.Contracts.GetContract(contractID);
-
-            if (response === null || response.status !== 200 || response.data === undefined) {
-                alert("Не удалось получить данные");
-
-                return;
-            }
-
-            setContract(response.data);
+            return;
         }
 
-        fetch();
+        if (API.AuthToken === "") {
+            return;
+        }
+
+        getContract(Number(contractID));
     }, []);
 
     const deleteContract = () => {
         navigate("/contracts");
     }
 
-    if (contract === null) {
-        return (
-            <h1>
-                Грузим данные (скорее всего)
-            </h1>
-        )
+    const saveContract = () => {
+        tryServerRequest(async () => {
+            const newContract: INewContract = {
+                id: 0,
+                sellerBillID: contract.sellerBill.id,
+                buyerBillID: contract.buyerBill.id,
+                products: contract.products.map(product => {
+                    const productQuantity: IProductQuantity = {
+                        id: product.id, 
+                        quantity: product.quantity
+                    }
+
+                    return productQuantity;
+                })
+            };
+            
+            const response = await API.Contracts.Create(newContract);
+
+            navigate("/contracts/" + response.id);
+            
+            getContract(response.id);
+
+            setIsEditMode(false);
+        });
     }
 
     return (
@@ -91,14 +115,17 @@ const ContractPage: FC = () => {
                 body: `Вы действительно хотите удалить договор №${contract.id}?`
             }}
             cancelModalProps={{
-                isShow: false,
-                setIsShow: (value) => {},
-                title: "",
-                body: ""
+                isShow: cancelModalShow,
+                setIsShow: setCancelModalShow,
+                title: "Отмена изменений",
+                body: "Вы точно хотите отменить редактирование? Измененные данные не сохранятся.", // TODO: реализовать cancelEditModal
+                onApprove: () => navigate("/contracts")
             }}
             itemPageBarProps={{
-                isEditMode: false,
+                isEditMode: isEditMode,
                 backClickAction: () => navigate("/contracts"),
+                saveClickAction: saveContract,
+                cancelEditClickAction: () => setCancelModalShow(true)
             }}
         >
             <h1 className="text-center">
@@ -108,6 +135,7 @@ const ContractPage: FC = () => {
                 contract={contract}
                 setContract={setContract}
                 isEditMode={isEditMode}
+                newContract={newContract}
             />
         </ItemPage>
     );

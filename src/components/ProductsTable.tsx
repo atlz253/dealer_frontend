@@ -1,6 +1,8 @@
 import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Table } from "react-bootstrap";
+import IconButton from "./IconButton";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export enum ProductsIndexing {
     id,
@@ -9,14 +11,17 @@ export enum ProductsIndexing {
 
 interface IProductTableProps {
     products: IBaseProduct[],
+    addedProducts?: IBaseProduct[],
     indexing?: ProductsIndexing,
-    onRowClick?: (id: number) => any | undefined,
-    rowTitle?: string | undefined
+    onRowClick?: (id: number) => any,
+    rowTitle?: string | undefined,
+    onAddClick?: (product: IBaseProduct) => any,
+    onRemoveClick?: (product: IBaseProduct) => any
 }
 
-const ProductsTable: FC<IProductTableProps> = ({ products, indexing = ProductsIndexing.id, onRowClick = undefined, rowTitle = undefined }) => {
+const ProductsTable: FC<IProductTableProps> = ({ products, indexing = ProductsIndexing.id, onRowClick, rowTitle, onAddClick, addedProducts = [], onRemoveClick }) => {
     return (
-        <Table hover>
+        <Table hover={onRowClick !== undefined}>
             <thead>
                 <tr>
                     <th>{indexing === ProductsIndexing.id ? "ID" : "№"}</th>
@@ -24,6 +29,7 @@ const ProductsTable: FC<IProductTableProps> = ({ products, indexing = ProductsIn
                     <th>Категория</th>
                     <th>Количество</th>
                     <th>Стоимость</th>
+                    {(onRemoveClick || onAddClick) && <th></th>}
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +41,7 @@ const ProductsTable: FC<IProductTableProps> = ({ products, indexing = ProductsIn
                                 onRowClick(product.id);
                             }
                         }}
-                        style={onRowClick !== undefined ? {cursor: "pointer"} : undefined}
+                        style={onRowClick !== undefined ? { cursor: "pointer" } : undefined}
                         title={rowTitle}
                     >
                         <td>{indexing === ProductsIndexing.id ? product.id : index + 1}</td>
@@ -43,6 +49,33 @@ const ProductsTable: FC<IProductTableProps> = ({ products, indexing = ProductsIn
                         <td>{product.category}</td>
                         <td>{product.quantity}</td>
                         <td>{product.price}</td>
+                        {
+                            (onRemoveClick || onAddClick) &&
+                            <td>
+                                {
+                                    (
+                                        onAddClick && addedProducts.filter(p => p.id === product.id).length === 0 &&
+                                        <IconButton
+                                            icon={faPlus}
+                                            variant="link"
+                                            onClick={() => onAddClick(product)}
+                                        />
+                                    )
+
+                                    ||
+
+                                    (
+                                        onRemoveClick &&
+                                        <IconButton
+                                            icon={faTrash}
+                                            variant="link"
+                                            onClick={() => onRemoveClick(product)}
+                                        />
+                                    )
+                                }
+                            </td>
+                        }
+
                     </tr>
                 )}
             </tbody>
