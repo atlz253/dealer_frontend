@@ -8,22 +8,13 @@ import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 interface IProductsModalProps {
     isShow: boolean,
     setIsShow: Dispatch<SetStateAction<boolean>>,
+    products: IBaseProduct[],
     onAddClick?: (product: IBaseProduct) => any,
     addedProducts?: IBaseProduct[],
     onRemoveClick?: (product: IBaseProduct) => any
 }
 
-const ProductsModal: FC<IProductsModalProps> = ({ isShow, setIsShow, onAddClick, addedProducts, onRemoveClick }) => {
-    const [products, setProducts] = useState<IBaseProduct[]>([]);
-
-    useEffect(() => {
-        tryServerRequest(async () => {
-            const products = await API.Products.Get();
-
-            setProducts(products);
-        });
-    }, []);
-
+const ProductsModal: FC<IProductsModalProps> = ({ isShow, setIsShow, products, onAddClick, addedProducts, onRemoveClick }) => {
     return (
         <Modal size="lg" show={isShow} onHide={() => setIsShow(false)}>
             <Modal.Header closeButton>

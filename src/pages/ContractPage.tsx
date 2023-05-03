@@ -88,18 +88,18 @@ const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
                 buyerBillID: contract.buyerBill.id,
                 products: contract.products.map(product => {
                     const productQuantity: IProductQuantity = {
-                        id: product.id, 
+                        id: product.id,
                         quantity: product.quantity
                     }
 
                     return productQuantity;
                 })
             };
-            
+
             const response = await API.Contracts.Create(newContract);
 
             navigate("/contracts/" + response.id);
-            
+
             getContract(response.id);
 
             setIsEditMode(false);
@@ -129,7 +129,7 @@ const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
             }}
         >
             <h1 className="text-center">
-                Договор №{contract.id}
+                {newContract ? "Новый договор" : `Договор №${contract.id}`}
             </h1>
             <Contract
                 contract={contract}

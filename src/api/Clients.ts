@@ -19,7 +19,7 @@ class Clients extends AbstractAPI {
     }
 
     public static async Get(onlyNames?: boolean): Promise<IBaseClient[] | IName[]> {
-        const response = await axios.get<IBaseClient[]>(baseURL + "/clients", {
+        const response = await axios.get<IBaseClient[] | IName[]>(baseURL + "/clients", {
             headers: {
                 authorization: this.authToken
             },

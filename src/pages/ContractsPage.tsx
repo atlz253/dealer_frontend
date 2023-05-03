@@ -3,14 +3,14 @@ import { Button, Form, Table } from 'react-bootstrap';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import API from '../api/API';
-import IBaseContract from '../../node_modules/audio_diler_common/interfaces/IBaseContract';
+import IBaseContract from 'audio_diler_common/interfaces/IBaseContract';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import IconButton from "../components/IconButton";
 import { AuthContext, IAuthContext } from "../context";
 import IResponse from "audio_diler_common/interfaces/IResponse";
 import tryServerRequest from '../utils/tryServerRequest';
 
-const Contracts: FC = () => {
+const ContractsPage: FC = () => {
     const [contracts, setContracts] = useState<IBaseContract[]>([]);
     const navigate = useNavigate();
 
@@ -67,4 +67,4 @@ const Contracts: FC = () => {
     );
 }
 
-export default Contracts;
+export default ContractsPage;

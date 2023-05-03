@@ -6,7 +6,7 @@ import IBill from "audio_diler_common/interfaces/IBill";
 import ID from "audio_diler_common/interfaces/ID";
 import IBillNumber from "audio_diler_common/interfaces/IBillNumber";
 
-class Bills extends AbstractAPI {
+class DealerBills extends AbstractAPI {
     public static async Get(onlyBillNumbers?: boolean): Promise<IBaseBill[] | IBillNumber[]> {
         const request = await axios.get<IBaseBill[]>(baseURL + "/bills", {
             headers: {
@@ -57,4 +57,4 @@ class Bills extends AbstractAPI {
     }
 }
 
-export default Bills;
+export default DealerBills;

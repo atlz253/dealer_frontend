@@ -6,9 +6,11 @@ import API from "../api/API";
 import tryServerRequest from "../utils/tryServerRequest";
 import { useNavigate } from "react-router-dom";
 import BillsTable from '../components/BillsTable';
+import Bills from '../components/Bills';
+import IBill from 'audio_diler_common/interfaces/IBill';
 
-const Bills: FC = () => {
-    const [bills, setBills] = useState<IBaseBill[]>([]);
+const BillsPage: FC = () => {
+    const [bills, setBills] = useState<IBaseBill[] | null>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,28 +19,23 @@ const Bills: FC = () => {
         }
 
         tryServerRequest(async () => {
-            const bills = await API.Bills.Get();
+            const bills = await API.DealerBills.Get();
 
             setBills(bills as IBaseBill[]);
         });
     }, []);
 
     return (
-        <div className="d-flex flex-fill flex-column p-1">
-            <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
-                <IconButton
-                    icon={faPlus}
-                    text="Добавить"
-                    className="ms-1"
-                    onClick={() => navigate("/bills/new")}
-                />
-            </div>
-            <BillsTable 
-                bills={bills}
-                onRowClick={(id: number) => navigate(`/bills/${id}`)}
-            />
-        </div>
+        <Bills 
+            bills={bills}
+            setBills={setBills}
+            getBill={(id: number) => API.DealerBills.GetByID(id)}
+            saveBill={(bill: IBill) => API.DealerBills.Save(bill)}
+            createBill={(bill: IBill) => API.DealerBills.Create(bill)}
+            deleteBill={(id: number) => API.DealerBills.Delete(id)}
+            className="p-1"
+        />
     );
 }
 
-export default Bills;
+export default BillsPage;

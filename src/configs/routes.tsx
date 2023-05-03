@@ -1,17 +1,16 @@
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import Root from '../pages/Root';
-import Contracts from '../pages/Contracts';
+import ContractsPage from '../pages/ContractsPage';
 import Index from '../pages/Index';
 import Providers from '../pages/Providers';
 import Clients from '../pages/Clients';
-import Products from '../pages/Products';
-import Bills from '../pages/BillsPage';
+import ProductsPage from '../pages/ProductsPage';
+import BillsPage from '../pages/BillsPage';
 import ContractPage from '../pages/ContractPage';
-import ProductPage from "../pages/ProductPage";
 import Users from "../pages/Users";
 import UserPage from "../pages/UserPage";
-import BillPage from "../pages/BillPage";
 import ClientPage from '../pages/ClientPage';
+import ProviderPage from '../pages/ProviderPage';
 
 export const dealer_routes: RouteObject[] = [
     {
@@ -20,7 +19,7 @@ export const dealer_routes: RouteObject[] = [
     },
     {
         path: "/contracts",
-        element: <Contracts />
+        element: <ContractsPage />
     },
     {
         path: "/contracts/new",
@@ -33,6 +32,14 @@ export const dealer_routes: RouteObject[] = [
     {
         path: "/providers",
         element: <Providers />
+    },
+    {
+        path: "/providers/new",
+        element: <ProviderPage newProvider />
+    },
+    {
+        path: "/providers/:providerID",
+        element: <ProviderPage />
     },
     {
         path: "/clients",
@@ -48,27 +55,11 @@ export const dealer_routes: RouteObject[] = [
     },
     {
         path: "/products",
-        element: <Products />
-    },
-    {
-        path: "/products/new",
-        element: <ProductPage newProduct />
-    },
-    {
-        path: "/products/:productID",
-        element: <ProductPage />
+        element: <ProductsPage />
     },
     {
         path: "/bills",
-        element: <Bills />
-    },
-    {
-        path: "/bills/:billID",
-        element: <BillPage />
-    },
-    {
-        path: "/bills/new",
-        element: <BillPage newBill />
+        element: <BillsPage />
     }
 ];
 

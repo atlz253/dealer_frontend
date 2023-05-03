@@ -1,40 +1,59 @@
+import { FC, useEffect, useState } from 'react';
+import IBaseProvider from "audio_diler_common/interfaces/IBaseProvider";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { FC } from 'react';
-import { Button, Form, Table } from 'react-bootstrap';
+import IconButton from '../components/IconButton';
+import { Table } from 'react-bootstrap';
+import API from '../api/API';
+import tryServerRequest from '../utils/tryServerRequest';
+import { useNavigate } from 'react-router-dom';
 
 const Providers: FC = () => {
+    const [providers, setProviders] = useState<IBaseProvider[]>([]);
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+        if (API.AuthToken === "") {
+            return;
+        }
+
+        tryServerRequest(async () => {
+            const providers = await API.Providers.Get();
+
+            setProviders(providers as IBaseProvider[]);
+        });
+    }, []);
+
     return (
         <div className="d-flex flex-fill flex-column p-1">
-            <div className="d-flex flex-fill" style={{ maxHeight: "50px" }}>
-                <Form.Control type="text" placeholder="Поиск" />
-                <Button className="w-25 ms-1">
-                    <FontAwesomeIcon icon={faPlus} />
-                    Добавить
-                </Button>
+            <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
+                <IconButton
+                    icon={faPlus}
+                    text="Добавить"
+                    className="ms-1"
+                    onClick={() => navigate("/providers/new")}
+                />
             </div>
-            <Table striped bordered hover className="mt-1">
+            <Table hover>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Наименование</th>
-                        <th>Кол-во товаров</th>
+                        <th>Имя</th>
                         <th>Добавлен</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>0</td>
-                        <td>ООО «Поставщик»</td>
-                        <td>10</td>
-                        <td>01.04.23</td>
-                    </tr>
-                    <tr>
-                        <td>0</td>
-                        <td>ООО «Поставщик»</td>
-                        <td>10</td>
-                        <td>01.04.23</td>
-                    </tr>
+                    {providers.map(provider =>
+                        <tr
+                            key={provider.id} 
+                            onClick={() => navigate(`/providers/${provider.id}`)}
+                            style={{ cursor: "pointer" }}
+                            title={`Нажмите, чтобы перейти к просмотру поставщика ${provider.id}`}
+                        >
+                            <td>{provider.id}</td>
+                            <td>{provider.name}</td>
+                            <td>{provider.added}</td>
+                        </tr>
+                    )}
                 </tbody>
             </Table>
         </div>

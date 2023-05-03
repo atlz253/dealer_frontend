@@ -7,13 +7,8 @@ import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
 import Categories from "../components/Categories/Categories";
 import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
-import BillsTable from "../components/BillsTable";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import IconButton from "../components/IconButton";
-import { Button, Modal } from "react-bootstrap";
-import Bill from "../components/Bill";
-import BillModal from "../components/BillModal";
 import IBill from "audio_diler_common/interfaces/IBill";
+import Bills from "../components/Bills";
 
 interface ClientPageProps {
     newClient?: boolean
@@ -37,18 +32,6 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const clientBackup = useRef<IClient | null>(null);
     const [bills, setBills] = useState<IBaseBill[] | null>(null);
-    const [editBillModal, setEditBillModal] = useState<boolean>(false);
-    const [editBill, setEditBill] = useState<IBill>({
-        id: 0,
-        correspondentBill: "",
-        BIC: "",
-        INN: "",
-        ownerName: "",
-        billNumber: "",
-        bankName: "",
-        expireDate: ""
-    });
-    const [newBill, setNewBill] = useState<boolean>(false);
 
     useEffect(() => {
         if (newClient) {
@@ -129,79 +112,6 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
         });
     }
 
-    const addNewBillClick = () => {
-        setNewBill(true);
-
-        setEditBill({
-            id: 0,
-            correspondentBill: "",
-            BIC: "",
-            INN: "",
-            ownerName: "",
-            billNumber: "",
-            bankName: "",
-            expireDate: ""
-        });
-
-        setEditBillModal(true);
-    }
-
-    const saveNewBill = () => {
-        tryServerRequest(async () => {
-            const result = await API.Clients.Bills.Create(Number(clientID), editBill);
-
-            const bill = { ...editBill, id: result.id };
-
-            if (bills !== null) {
-                setBills([...bills, bill])
-            }
-
-            setEditBill(bill);
-        });
-    }
-
-    const openBill = (id: number) => {
-        tryServerRequest(async () => {
-            const bill = await API.Clients.Bills.GetByID(Number(clientID), id);
-
-            if (newBill) {
-                setNewBill(false);
-            }
-
-            setEditBill(bill);
-
-            setEditBillModal(true);
-        });
-    }
-
-    const deleteBill = () => {
-        tryServerRequest(async () => {
-            await API.Clients.Bills.Delete(Number(clientID), editBill.id);
-
-            if (bills !== null) {
-                setBills(bills.filter(bill => bill.id !== editBill.id));
-            }
-
-            setEditBillModal(false);
-        });
-    }
-
-    const saveBill = () => {
-        tryServerRequest(async () => {
-            await API.Clients.Bills.Save(Number(clientID), editBill);
-
-            if (bills !== null) {
-                setBills(bills.map(bill => {
-                    if (bill.id === editBill.id) {
-                        return editBill;
-                    }
-
-                    return bill;
-                }));
-            }
-        });
-    }
-
     return (
         <>
             <ItemPage
@@ -246,37 +156,17 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
                         eventKey="1"
                         onClick={openBills}
                     >
-                        <div className="d-flex flex-fill justify-content-end" style={{ maxHeight: "40px", height: "40px" }}>
-                            <IconButton
-                                icon={faPlus}
-                                text="Добавить"
-                                className="ms-1"
-                                onClick={addNewBillClick}
-                            />
-                        </div>
-                        {
-                            bills !== null &&
-                            <BillsTable
-                                bills={bills}
-                                onRowClick={openBill}
-                            />
-                        }
+                        <Bills 
+                            bills={bills}
+                            setBills={setBills}
+                            getBill={(id: number) => API.Clients.Bills.GetByID(Number(clientID), id)}
+                            saveBill={(bill: IBill) => API.Clients.Bills.Save(Number(clientID), bill)}
+                            createBill={(bill: IBill) => API.Clients.Bills.Create(Number(clientID), bill)}
+                            deleteBill={(id: number) => API.Clients.Bills.Delete(Number(clientID), id)}
+                        />
                     </Categories.Item>
                 </Categories>
             </ItemPage>
-            {
-                editBillModal &&
-                <BillModal
-                    isShow={editBillModal}
-                    setIsShow={setEditBillModal}
-                    bill={editBill}
-                    setBill={setEditBill}
-                    newBill={newBill}
-                    newBillSaveAction={saveNewBill}
-                    billDeleteAction={deleteBill}
-                    billSaveAction={saveBill}
-                />
-            }
         </>
     );
 }

@@ -16,7 +16,7 @@ class Products extends AbstractAPI {
         return request.data;
     }
 
-    public static async GetProduct(id: string): Promise<IProduct> {
+    public static async GetByID(id: number): Promise<IProduct> {
         const request = await axios.get<IProduct>(baseURL + "/products/" + id, {
             headers: {
                 authorization: this.authToken
@@ -26,7 +26,7 @@ class Products extends AbstractAPI {
         return request.data;
     }
 
-    public static async CreateProduct(product: IProduct): Promise<ID> {
+    public static async Create(product: IProduct): Promise<ID> {
         const request = await axios.post<ID>(baseURL + "/products/new", product, {
             headers: {
                 authorization: this.authToken
@@ -36,7 +36,7 @@ class Products extends AbstractAPI {
         return request.data;
     }
 
-    public static async SaveProduct(product: IProduct): Promise<void> {
+    public static async Save(product: IProduct): Promise<void> {
         await axios.put(baseURL + "/products/" + product.id, product, {
             headers: {
                 authorization: this.authToken
@@ -44,7 +44,7 @@ class Products extends AbstractAPI {
         });
     }
 
-    public static async DeleteProduct(id: number): Promise<void> {
+    public static async Delete(id: number): Promise<void> {
         await axios.delete(baseURL + "/products/" + id, {
             headers: {
                 authorization: this.authToken

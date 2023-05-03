@@ -2,19 +2,21 @@ import Products from "./Products";
 import Contracts from "./Contracts";
 import Login from "./Login";
 import AbstractAPI from "./AbstractAPI";
-import Bills from "./Bills";
+import DealerBills from "./DealerBills";
 import Clients from "./Clients";
 import Users from "./Users";
+import Providers from "./Providers";
 
 class API extends AbstractAPI {
     public static SetAuthToken(token: string): void {
         super.SetAuthToken(token);
 
-        Bills.SetAuthToken(token);
+        DealerBills.SetAuthToken(token);
         Login.SetAuthToken(token);
         Users.SetAuthToken(token);
         Clients.SetAuthToken(token);
         Products.SetAuthToken(token);
+        Providers.SetAuthToken(token);
         Contracts.SetAuthToken(token);
     }
 
@@ -30,8 +32,8 @@ class API extends AbstractAPI {
         return Login;
     }
 
-    public static get Bills(): typeof Bills {
-        return Bills;
+    public static get DealerBills(): typeof DealerBills {
+        return DealerBills;
     }
 
     public static get Clients(): typeof Clients {
@@ -40,6 +42,10 @@ class API extends AbstractAPI {
 
     public static get Users(): typeof Users {
         return Users;
+    }
+
+    public static get Providers(): typeof Providers {
+        return Providers;
     }
 }
 
