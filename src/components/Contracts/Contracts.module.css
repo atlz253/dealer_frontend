@@ -1,0 +1,50 @@
+.head {
+   display: none; 
+}
+
+.body {
+    display: block;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    border-radius: 0.375rem;
+    background-color: var(--bs-light);
+}
+
+.cell {
+    border-bottom: 0px;
+}
+
+.cell::before {
+    content: attr(cell-name) ": ";
+    font-weight: 600;
+}
+
+@media (min-width: 768px) {
+    .head {
+        display: table-header-group;
+    }
+
+    .body {
+        display: table-row-group;
+    }
+
+    .row {
+        display: table-row;
+        background-color: transparent;
+        border-radius: 0;
+        margin-top: 0;
+    }
+
+    .cell {
+        border-bottom: 1px solid var(--bs-table-border-color);;
+    }
+
+    .cell::before { 
+        content: "";
+    }
+}
