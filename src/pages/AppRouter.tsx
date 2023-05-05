@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { admin_routes, dealer_routes } from "../configs/routes";
 import App from "./App";
 import { AuthContext } from "../context";
-import Auth from "./Auth";
+import AuthPage from "./AuthPage";
 
 export const AppRouter = () => {
     const {auth} = useContext(AuthContext);
@@ -11,7 +11,7 @@ export const AppRouter = () => {
     if (auth === null) // Пользователь не авторизован
     {
         return (
-            <Auth />
+            <AuthPage />
         )
     }
 

@@ -1,0 +1,9 @@
+.auth {
+    min-width: 75%;
+}
+
+@media (min-width: 1000px) {
+    .auth {
+        min-width: 300px;
+    }
+}

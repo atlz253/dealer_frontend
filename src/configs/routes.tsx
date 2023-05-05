@@ -1,7 +1,7 @@
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import Root from '../pages/Root';
 import ContractsPage from '../pages/ContractsPage';
-import Index from '../pages/Index';
+import IndexPage from '../pages/IndexPage';
 import Providers from '../pages/Providers';
 import Clients from '../pages/Clients';
 import ProductsPage from '../pages/ProductsPage';
@@ -15,7 +15,7 @@ import ProviderPage from '../pages/ProviderPage';
 export const dealer_routes: RouteObject[] = [
     {
         path: "/",
-        element: <Index />
+        element: <IndexPage />
     },
     {
         path: "/contracts",
@@ -66,7 +66,7 @@ export const dealer_routes: RouteObject[] = [
 export const admin_routes: RouteObject[] = [
     {
         path: "/",
-        element: <Index />
+        element: <IndexPage />
     },
     {
         path: "/users",
