@@ -9,12 +9,14 @@ interface IProductsModalProps {
     isShow: boolean,
     setIsShow: Dispatch<SetStateAction<boolean>>,
     products: IBaseProduct[],
+    setProducts?: Dispatch<SetStateAction<IBaseProduct[]>>,
     onAddClick?: (product: IBaseProduct) => any,
     addedProducts?: IBaseProduct[],
-    onRemoveClick?: (product: IBaseProduct) => any
+    onRemoveClick?: (product: IBaseProduct) => any,
+    isQuantityChangeable?: boolean
 }
 
-const ProductsModal: FC<IProductsModalProps> = ({ isShow, setIsShow, products, onAddClick, addedProducts, onRemoveClick }) => {
+const ProductsModal: FC<IProductsModalProps> = ({ isShow, setIsShow, products, setProducts, onAddClick, addedProducts, onRemoveClick, isQuantityChangeable }) => {
     return (
         <Modal size="lg" show={isShow} onHide={() => setIsShow(false)}>
             <Modal.Header closeButton>
@@ -25,9 +27,11 @@ const ProductsModal: FC<IProductsModalProps> = ({ isShow, setIsShow, products, o
             <Modal.Body>
                 <ProductsTable
                     products={products}
+                    setProducts={setProducts}
                     onAddClick={onAddClick}
                     addedProducts={addedProducts}
                     onRemoveClick={onRemoveClick}
+                    isQuantityChangeable={isQuantityChangeable}
                 />
             </Modal.Body>
         </Modal>

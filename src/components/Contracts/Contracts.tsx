@@ -18,6 +18,8 @@ const Contracts: FC<IContractsProps> = ({ contracts }) => {
                     <th>Номер договора</th>
                     <th>Продавец</th>
                     <th>Покупатель</th>
+                    <th>Тип договора</th>
+                    <th>Статус</th>
                     <th>Сумма</th>
                     <th>Дата создания</th>
                 </tr>
@@ -47,6 +49,18 @@ const Contracts: FC<IContractsProps> = ({ contracts }) => {
                             className={styles.cell}
                         >
                             {contract.buyerName}
+                        </td>
+                        <td
+                            cell-name="Тип договора"
+                            className={styles.cell}
+                        >
+                            {contract.type}
+                        </td>
+                        <td
+                            cell-name="Статус"
+                            className={styles.cell}
+                        >
+                            {contract.status}
                         </td>
                         <td
                             cell-name="Сумма"

@@ -16,6 +16,8 @@ import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 import Products from "./Products";
 import CategoryItem from "./Categories/CategoryItem";
 import { AuthContext } from "../context";
+import ChequesTable from "./ChequesTable";
+import ICheque from "audio_diler_common/interfaces/ICheque";
 
 interface IContractProps {
     contract: IContract,
@@ -32,7 +34,6 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
     const [sellerBillsNumbers, setSellersBillsNumbers] = useState<IBillNumber[]>([]);
     const [sellerBillNumberSelect, setSellerBillNumberSelect] = useState<string>("default");
     const [products, setProducts] = useState<IBaseProduct[]>([]);
-    const [contractTypeSelect, setContractTypeSelect] = useState<string>("default");
     const [sellersNames, setSellersNames] = useState<IName[] | null>(null);
     const [sellerBillNameSelect, setSellerBillNameSelect] = useState<string>("default");
     const { auth } = useContext(AuthContext);
@@ -115,12 +116,12 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
 
                     break;
             }
-            
-            setContractTypeSelect(value);
+
             setBuyerBillOwnerSelect("default");
             setSellerBillNameSelect("default");
             setBuyerBillNumberSelect("default");
             setSellerBillNumberSelect("default");
+            setContract({ ...contract, type: value });
         });
     }
 
@@ -138,6 +139,32 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
         });
     }
 
+    const updateCheque = (cheque: ICheque) => {
+        tryServerRequest(async () => {
+            await API.Contracts.Cheques.Save(contract.id, cheque);
+
+            const newCheques = contract.cheques.map(c => {
+                if (c.id === cheque.id) {
+                    return cheque;
+                }
+
+                return c;
+            });
+
+            setContract({ ...contract, cheques: newCheques });
+
+            for (let i = 0; i < newCheques.length; i++) {
+                const cheque = newCheques[i];
+
+                if (cheque.status === "unpaid") {
+                    return;
+                }
+            }
+
+            setContract({ ...contract, status: "close" });
+        });
+    }
+
     return (
         <>
             <Categories defaultActiveKey={["0"]}>
@@ -148,12 +175,20 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                 >
                     <NamedSelect
                         name="Тип договора"
-                        value={contractTypeSelect}
+                        value={contract.type}
                         onChange={event => changeContractType(event.target.value)}
                     >
                         <option value="default" disabled>Выберите тип договора</option>
                         <option value="buy">Покупка</option>
                         <option value="sell">Продажа</option>
+                    </NamedSelect>
+                    <NamedSelect
+                        name="Статус договора"
+                        value={contract.status}
+                        disabled={true}
+                    >
+                        <option value="open">Открыт</option>
+                        <option value="close">Закрыт</option>
                     </NamedSelect>
                 </CategoryItem>
                 <Categories.Item
@@ -169,16 +204,16 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                                     name="Владелец"
                                     value={sellerBillNameSelect}
                                     onChange={event => sellerBillOwnerChange(event.target.value)}
-                                    disabled={sellersNames === null || contractTypeSelect === "sell"}
+                                    disabled={sellersNames === null || contract.type === "sell"}
                                 >
-                                    <option value="default" disabled>{contractTypeSelect === "sell" ? auth?.login : "Выберите владельца счета"}</option>
+                                    <option value="default" disabled>{contract.type === "sell" ? auth?.login : "Выберите владельца счета"}</option>
                                     {sellersNames?.map(provider => <option key={provider.id} value={provider.id}>{provider.name}</option>)}
                                 </NamedSelect>
                                 <NamedSelect
                                     name="Номер счета"
                                     value={sellerBillNumberSelect}
                                     onChange={event => changeSellerBill(event.target.value)}
-                                    disabled={contractTypeSelect !== "sell" && sellerBillNameSelect === "default"}
+                                    disabled={contract.type !== "sell" && sellerBillNameSelect === "default"}
                                 >
                                     <option value="default" disabled>Выберите номер счета</option>
                                     {sellerBillsNumbers.map(bill => <option key={bill.id} value={bill.id}>{bill.billNumber}</option>)}
@@ -209,16 +244,16 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                                     name="Владелец"
                                     value={buyerBillOwnerSelect}
                                     onChange={event => buyerBillOwnerChange(event.target.value)}
-                                    disabled={contractTypeSelect === "buy"}
+                                    disabled={contract.type === "buy"}
                                 >
-                                    <option value="default" disabled>{contractTypeSelect === "buy" ? auth?.login : "Выберите владельца счета"}</option>
+                                    <option value="default" disabled>{contract.type === "buy" ? auth?.login : "Выберите владельца счета"}</option>
                                     {buyersNames.map(client => <option key={client.id} value={client.id}>{client.name}</option>)}
                                 </NamedSelect>
                                 <NamedSelect
                                     name="Номер счета"
                                     value={buyerBillNumberSelect}
                                     onChange={event => changeBuyerBill(event.target.value)}
-                                    disabled={contractTypeSelect !== "buy" && buyerBillOwnerSelect === "default"}
+                                    disabled={contract.type !== "buy" && buyerBillOwnerSelect === "default"}
                                 >
                                     <option value="default" disabled>Выберите номер счета</option>
                                     {buyerBillsNumbers.map(bill => <option key={bill.id} value={bill.id}>{bill.billNumber}</option>)}
@@ -238,6 +273,16 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
 
                 </Categories.Item>
                 <Categories.Item
+                    name="Чеки на оплату"
+                    eventKey="0"
+                    notClosable
+                >
+                    <ChequesTable
+                        cheques={contract.cheques}
+                        updateCheque={updateCheque}
+                    />
+                </Categories.Item>
+                <Categories.Item
                     name="Товары"
                     eventKey="0"
                     notClosable
@@ -247,7 +292,8 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                         addProduct={addProduct}
                         removeProduct={removeProduct}
                         productsModalProps={{
-                            products: products
+                            products: products,
+                            setProducts: setProducts
                         }}
                     />
                 </Categories.Item>

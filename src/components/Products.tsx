@@ -16,6 +16,7 @@ interface IProductsProps {
     addProduct?: (product: IBaseProduct) => void,
     productsModalProps?: {
         products: IBaseProduct[],
+        setProducts?: Dispatch<SetStateAction<IBaseProduct[]>>,
         isEditMode?: boolean
     },
     productModalProps?: {
@@ -114,9 +115,11 @@ const Products: FC<IProductsProps> = ({ products, removeProduct, addProduct, pro
                     isShow={productsModalShow}
                     setIsShow={setProductsModalShow}
                     products={productsModalProps ? productsModalProps.products : []}
+                    setProducts={productsModalProps?.setProducts}
                     onAddClick={addProduct}
                     addedProducts={products}
                     onRemoveClick={removeProduct}
+                    isQuantityChangeable={true}
                 />
             }
             {

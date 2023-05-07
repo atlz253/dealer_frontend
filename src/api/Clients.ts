@@ -46,7 +46,7 @@ class Clients extends AbstractAPI {
             headers: {
                 authorization: this.authToken
             }
-        })
+        });
 
         return response.data;
     }
@@ -56,7 +56,7 @@ class Clients extends AbstractAPI {
             headers: {
                 authorization: this.authToken
             }
-        })
+        });
     }
 
     public static async Delete(id: number): Promise<void> {
@@ -64,7 +64,7 @@ class Clients extends AbstractAPI {
             headers: {
                 authorization: this.authToken
             }
-        })
+        });
     }
 }
 

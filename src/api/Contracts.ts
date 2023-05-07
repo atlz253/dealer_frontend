@@ -2,12 +2,22 @@ import IBaseContract from "audio_diler_common/interfaces/IBaseContract";
 import IContract from "audio_diler_common/interfaces/IContract";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import IResponse from "audio_diler_common/interfaces/IResponse";
 import AbstractAPI from "./AbstractAPI";
 import INewContract from "audio_diler_common/interfaces/INewContract";
 import ID from "audio_diler_common/interfaces/ID";
+import Cheques from "./Cheques";
 
 class Contracts extends AbstractAPI {
+    public static SetAuthToken(token: string): void {
+        super.SetAuthToken(token);
+
+        Cheques.SetAuthToken(token);
+    }
+
+    public static get Cheques(): typeof Cheques {
+        return Cheques;
+    }
+
     public static async Get(): Promise<IBaseContract[]> {
         const request = await axios.get<IBaseContract[]>(baseURL + "/contracts", {
             headers: {

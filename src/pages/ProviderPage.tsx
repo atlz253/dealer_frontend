@@ -101,7 +101,9 @@ const ProviderPage: FC<IProviderPageProps> = ({ newProvider }) => {
         });
 
         tryServerRequest(async () => {
-            const products = await API.Products.Get();
+            let products = await API.Products.Get();
+
+            products.forEach(product => product.deliveryDays = 0);
 
             setProducts(products);
         })
@@ -109,12 +111,16 @@ const ProviderPage: FC<IProviderPageProps> = ({ newProvider }) => {
 
     const addProduct = (product: IBaseProduct) => {
         tryServerRequest(async () => {
-            await API.Providers.Products.Add(Number(providerID), product.id);
+            if (product.deliveryDays === undefined) {
+                throw new Error("У товара отсутствует время доставки");
+            }    
+            
+            await API.Providers.Products.Add(Number(providerID), product.id, { deliveryDays: product.deliveryDays });
 
             if (providerProducts === null) {
                 return;
             }
-            
+
             setProviderProducts([...providerProducts, product]);
         });
     }
@@ -126,9 +132,9 @@ const ProviderPage: FC<IProviderPageProps> = ({ newProvider }) => {
             if (providerProducts === null) {
                 return;
             }
-    
+
             const newProviderProducts = providerProducts.filter(p => p.id !== product.id);
-    
+
             setProviderProducts(newProviderProducts);
         });
     }
@@ -195,7 +201,8 @@ const ProviderPage: FC<IProviderPageProps> = ({ newProvider }) => {
                                     addProduct={addProduct}
                                     removeProduct={removeProduct}
                                     productsModalProps={{
-                                        products: products
+                                        products: products,
+                                        setProducts: setProducts
                                     }}
                                     productModalProps={{
                                         getProduct: (id: number) => API.Products.GetByID(id)

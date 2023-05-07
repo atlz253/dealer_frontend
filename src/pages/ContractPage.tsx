@@ -13,7 +13,7 @@ import Contract from "../components/Contract";
 import ItemPage from '../components/ItemPage';
 import tryServerRequest from '../utils/tryServerRequest';
 import INewContract from 'audio_diler_common/interfaces/INewContract';
-import IProductQuantity from 'audio_diler_common/interfaces/IProductQuantity';
+import IContractProduct from "audio_diler_common/interfaces/IContractProduct";
 
 interface IContractPageProps {
     newContract?: boolean
@@ -27,6 +27,8 @@ const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
         buyerName: "",
         price: 0,
         created: "",
+        status: "",
+        type: "default",
         sellerBill: {
             id: 0,
             correspondentBill: "",
@@ -47,7 +49,8 @@ const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
             bankName: "",
             expireDate: ""
         },
-        products: []
+        products: [],
+        cheques: []
     });
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
@@ -86,10 +89,12 @@ const ContractPage: FC<IContractPageProps> = ({ newContract }) => {
                 id: 0,
                 sellerBillID: contract.sellerBill.id,
                 buyerBillID: contract.buyerBill.id,
+                type: contract.type,
                 products: contract.products.map(product => {
-                    const productQuantity: IProductQuantity = {
+                    const productQuantity: IContractProduct = {
                         id: product.id,
-                        quantity: product.quantity
+                        quantity: product.quantity,
+                        deliveryDays: product.deliveryDays ? product.deliveryDays : 0
                     }
 
                     return productQuantity;

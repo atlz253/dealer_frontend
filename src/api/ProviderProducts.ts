@@ -2,6 +2,7 @@ import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
 import AbstractAPI from "./AbstractAPI";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
+import IDeliveryDays from "audio_diler_common/interfaces/IDeliveryDays";
 
 class ProviderProducts extends AbstractAPI {
     public static async Get(providerID: number): Promise<IBaseProduct[]> {
@@ -14,8 +15,8 @@ class ProviderProducts extends AbstractAPI {
         return request.data;
     }
 
-    public static async Add(providerID: number, productID: number): Promise<void> {
-        await axios.put(baseURL + "/providers/" + providerID + "/products/" + productID, null, {
+    public static async Add(providerID: number, productID: number, deliveryDays: IDeliveryDays): Promise<void> {
+        await axios.put(baseURL + "/providers/" + providerID + "/products/" + productID, deliveryDays, {
             headers: {
                 authorization: this.authToken
             }
