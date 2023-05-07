@@ -1,25 +1,108 @@
 import IBaseContract from "audio_diler_common/interfaces/IBaseContract";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "./Contracts.module.css";
 
 interface IContractsProps {
-    contracts: IBaseContract[]
+    contracts: IBaseContract[],
+    setContracts: Dispatch<SetStateAction<IBaseContract[]>>
 }
 
-const Contracts: FC<IContractsProps> = ({ contracts }) => {
+const Contracts: FC<IContractsProps> = ({ contracts, setContracts }) => {
     const navigate = useNavigate();
+    const [sortOrder, setSortOrder] = useState<boolean>(false);
+    const [sortType, setSortType] = useState<string>("ID");
+
+    const sortByContractID = () => {
+        let order = sortOrder;
+
+        if (sortType === "ID") {
+            order = !sortOrder;
+
+            setSortOrder(!sortOrder);
+        }
+        else {
+            setSortType("ID");
+        }
+
+        setContracts(contracts.sort((a, b) => order ? b.id - a.id : a.id - b.id));
+    };
+
+    const sortByContractType = () => {
+        let order = sortOrder;
+
+        if (sortType === "type") {
+            order = !sortOrder;
+
+            setSortOrder(!sortOrder);
+        }
+        else {
+            setSortType("type");
+        }
+
+        setContracts(contracts.sort((a, b) => {
+            if (a.type === b.type) {
+                return 0;
+            }
+            if (a.type === "sell") {
+                return order ? -1 : 1;
+            }
+            else {
+                return order ? 1 : -1;
+            }
+        }));
+    }
+
+    const sortByStatusType = () => {
+        let order = sortOrder;
+
+        if (sortType === "status") {
+            order = !sortOrder;
+
+            setSortOrder(!sortOrder);
+        }
+        else {
+            setSortType("status");
+        }
+
+        setContracts(contracts.sort((a, b) => {
+            if (a.status === b.type) {
+                return 0;
+            }
+            if (a.status === "open") {
+                return order ? -1 : 1;
+            }
+            else {
+                return order ? 1 : -1;
+            }
+        }));
+    }
 
     return (
         <Table hover>
             <thead className={styles.head}>
                 <tr>
-                    <th>Номер договора</th>
+                    <th
+                        onClick={sortByContractID}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Номер договора
+                    </th>
                     <th>Продавец</th>
                     <th>Покупатель</th>
-                    <th>Тип договора</th>
-                    <th>Статус</th>
+                    <th
+                        onClick={sortByContractType}
+                        style={{cursor: "pointer"}}
+                    >
+                        Тип договора
+                    </th>
+                    <th
+                        onClick={sortByStatusType}
+                        style={{cursor: "pointer"}}
+                    >
+                        Статус
+                    </th>
                     <th>Сумма</th>
                     <th>Дата создания</th>
                 </tr>

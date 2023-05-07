@@ -35,6 +35,7 @@ const ContractsPage: FC = () => {
             </div>
             <Contracts 
                 contracts={contracts}
+                setContracts={setContracts}
             />
         </div>
     );
