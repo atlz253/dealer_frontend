@@ -11,11 +11,16 @@ import Users from "../pages/Users";
 import UserPage from "../pages/UserPage";
 import ClientPage from '../pages/ClientPage';
 import ProviderPage from '../pages/ProviderPage';
+import StatisticsPage from '../pages/StatisticsPage';
 
 export const dealer_routes: RouteObject[] = [
     {
         path: "/",
         element: <IndexPage />
+    },
+    {
+        path: "/statistics",
+        element: <StatisticsPage />
     },
     {
         path: "/contracts",

@@ -4,6 +4,7 @@ import axios from "axios";
 import { baseURL } from "./APIconfig";
 import ID from "audio_diler_common/interfaces/ID";
 import AbstractAPI from "./AbstractAPI";
+import ICount from "audio_diler_common/interfaces/ICount";
 
 class Products extends AbstractAPI {
     public static async Get(): Promise<IBaseProduct[]> {
@@ -18,6 +19,16 @@ class Products extends AbstractAPI {
 
     public static async GetByID(id: number): Promise<IProduct> {
         const request = await axios.get<IProduct>(baseURL + "/products/" + id, {
+            headers: {
+                authorization: this.authToken
+            }
+        });
+
+        return request.data;
+    }
+
+    public static async GetCount(): Promise<ICount> {
+        const request = await axios.get<ICount>(baseURL + "/products/count", {
             headers: {
                 authorization: this.authToken
             }

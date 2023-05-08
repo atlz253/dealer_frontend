@@ -7,6 +7,7 @@ import axios from "axios";
 import { baseURL } from "./APIconfig";
 import IProvider from "audio_diler_common/interfaces/IProvider";
 import ID from "audio_diler_common/interfaces/ID";
+import ICount from "audio_diler_common/interfaces/ICount";
 
 class Providers extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -45,6 +46,16 @@ class Providers extends AbstractAPI {
         });
 
         return response.data;
+    }
+
+    public static async GetCount(): Promise<ICount> {
+        const request = await axios.get<ICount>(baseURL + "/providers/count", {
+            headers: {
+                authorization: this.authToken
+            }
+        });
+
+        return request.data;
     }
 
     public static async Create(provider: IProvider): Promise<ID> {

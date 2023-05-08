@@ -6,6 +6,7 @@ import ID from "audio_diler_common/interfaces/ID";
 import IClient from "audio_diler_common/interfaces/IClient";
 import ClientBills from "./ClientBills";
 import IName from "audio_diler_common/interfaces/IName";
+import ICount from "audio_diler_common/interfaces/ICount";
 
 class Clients extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -39,6 +40,16 @@ class Clients extends AbstractAPI {
         });
 
         return response.data;
+    }
+
+    public static async GetCount(): Promise<ICount> {
+        const request = await axios.get<ICount>(baseURL + "/clients/count", {
+            headers: {
+                authorization: this.authToken
+            }
+        });
+
+        return request.data;
     }
 
     public static async Create(client: IClient): Promise<ID> {

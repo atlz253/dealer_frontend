@@ -6,6 +6,7 @@ import AbstractAPI from "./AbstractAPI";
 import INewContract from "audio_diler_common/interfaces/INewContract";
 import ID from "audio_diler_common/interfaces/ID";
 import Cheques from "./Cheques";
+import ICount from "audio_diler_common/interfaces/ICount";
 
 class Contracts extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -32,6 +33,19 @@ class Contracts extends AbstractAPI {
         const request = await axios.get<IContract>(baseURL + "/contracts/" + id, {
             headers: {
                 authorization: this.authToken
+            }
+        });
+
+        return request.data;
+    }
+
+    public static async GetCount(contractStatus?: string): Promise<ICount> {
+        const request = await axios.get<ICount>(baseURL + "/contracts/count", {
+            headers: {
+                authorization: this.authToken
+            },
+            params: {
+                contractStatus
             }
         });
 

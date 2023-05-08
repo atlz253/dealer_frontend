@@ -5,6 +5,10 @@ interface ILink {
 
 export const dealer_links: ILink[] = [
     {
+        to: "/statistics",
+        name: "Статистика"
+    },
+    {
         to: "/contracts",
         name: "Договора"
     },
