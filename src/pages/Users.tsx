@@ -5,7 +5,7 @@ import { Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import IUser from "audio_diler_common/interfaces/IUser";
+import IUser from "dealer_common/interfaces/IUser";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);

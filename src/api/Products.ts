@@ -1,10 +1,10 @@
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
-import IProduct from "audio_diler_common/interfaces/IProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
+import IProduct from "dealer_common/interfaces/IProduct";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import ID from "audio_diler_common/interfaces/ID";
+import ID from "dealer_common/interfaces/ID";
 import AbstractAPI from "./AbstractAPI";
-import ICount from "audio_diler_common/interfaces/ICount";
+import ICount from "dealer_common/interfaces/ICount";
 
 class Products extends AbstractAPI {
     public static async Get(): Promise<IBaseProduct[]> {

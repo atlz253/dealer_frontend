@@ -3,12 +3,12 @@ import { Dispatch, FC, SetStateAction, useState } from "react";
 import IconButton from "./IconButton";
 import ProductsModal from "./ProductsModal";
 import ProductsTable, { ProductsIndexing } from "./ProductsTable";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
-import IProduct from "audio_diler_common/interfaces/IProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
+import IProduct from "dealer_common/interfaces/IProduct";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
 import ProductModal from "./ProductModal";
-import ID from "audio_diler_common/interfaces/ID";
+import ID from "dealer_common/interfaces/ID";
 
 interface IProductsProps {
     products: IBaseProduct[] | null,

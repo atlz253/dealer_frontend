@@ -1,9 +1,9 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import IContract from 'audio_diler_common/interfaces/IContract';
+import IContract from 'dealer_common/interfaces/IContract';
 import API from '../api/API';
 import Bill from '../components/Bill';
-import IBill from 'audio_diler_common/interfaces/IBill';
+import IBill from 'dealer_common/interfaces/IBill';
 import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import IconButton from "../components/IconButton";
 import DeleteModal from "../components/DeleteModal";
@@ -12,8 +12,8 @@ import { AuthContext, IAuthContext } from "../context";
 import Contract from "../components/Contract";
 import ItemPage from '../components/ItemPage';
 import tryServerRequest from '../utils/tryServerRequest';
-import INewContract from 'audio_diler_common/interfaces/INewContract';
-import IContractProduct from "audio_diler_common/interfaces/IContractProduct";
+import INewContract from 'dealer_common/interfaces/INewContract';
+import IContractProduct from "dealer_common/interfaces/IContractProduct";
 
 interface IContractPageProps {
     newContract?: boolean

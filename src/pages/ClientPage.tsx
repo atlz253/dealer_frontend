@@ -1,13 +1,13 @@
 import { FC, useEffect, useState, useRef } from "react";
 import ItemPage from "../components/ItemPage";
-import IClient from "audio_diler_common/interfaces/IClient";
+import IClient from "dealer_common/interfaces/IClient";
 import { useNavigate, useParams } from "react-router-dom";
 import Client from "../components/Client";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
 import Categories from "../components/Categories/Categories";
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
-import IBill from "audio_diler_common/interfaces/IBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
+import IBill from "dealer_common/interfaces/IBill";
 import Bills from "../components/Bills";
 
 interface ClientPageProps {

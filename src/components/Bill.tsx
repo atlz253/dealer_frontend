@@ -1,4 +1,4 @@
-import IBill from 'audio_diler_common/interfaces/IBill';
+import IBill from 'dealer_common/interfaces/IBill';
 import { FC } from 'react';
 import NamedInput from './NamedInputs/NamedInput';
 import NamedSelect from "./NamedInputs/NamedSelect";

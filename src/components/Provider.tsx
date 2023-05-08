@@ -1,4 +1,4 @@
-import IProvider from "audio_diler_common/interfaces/IProvider";
+import IProvider from "dealer_common/interfaces/IProvider";
 import { Dispatch, FC, SetStateAction } from "react";
 import NamedInput from "./NamedInputs/NamedInput";
 

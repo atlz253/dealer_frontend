@@ -1,4 +1,4 @@
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
 import { FC } from "react";
 import { Table } from "react-bootstrap";
 

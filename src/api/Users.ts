@@ -1,8 +1,8 @@
-import IUser from "audio_diler_common/interfaces/IUser";
+import IUser from "dealer_common/interfaces/IUser";
 import AbstractAPI from "./AbstractAPI";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import ID from "audio_diler_common/interfaces/ID";
+import ID from "dealer_common/interfaces/ID";
 
 class Users extends AbstractAPI {
     public static async Get(): Promise<IUser[]> {

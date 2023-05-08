@@ -1,4 +1,4 @@
-import ICheque from "audio_diler_common/interfaces/ICheque";
+import ICheque from "dealer_common/interfaces/ICheque";
 import { FC, SetStateAction, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
 import IconButton from "./IconButton";

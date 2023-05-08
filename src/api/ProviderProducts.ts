@@ -1,8 +1,8 @@
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
 import AbstractAPI from "./AbstractAPI";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import IDeliveryDays from "audio_diler_common/interfaces/IDeliveryDays";
+import IDeliveryDays from "dealer_common/interfaces/IDeliveryDays";
 
 class ProviderProducts extends AbstractAPI {
     public static async Get(providerID: number): Promise<IBaseProduct[]> {

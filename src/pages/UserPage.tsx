@@ -6,9 +6,9 @@ import IconButton from "../components/IconButton";
 import { useNavigate, useParams } from "react-router-dom";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import IDealer from "audio_diler_common/interfaces/IDealer";
+import IDealer from "dealer_common/interfaces/IDealer";
 import User from "../components/User";
-import IUser from "audio_diler_common/interfaces/IUser";
+import IUser from "dealer_common/interfaces/IUser";
 import ItemPage from "../components/ItemPage";
 
 interface IUserProps {

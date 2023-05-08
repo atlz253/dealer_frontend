@@ -1,7 +1,7 @@
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
-import IBill from "audio_diler_common/interfaces/IBill";
-import IBillNumber from "audio_diler_common/interfaces/IBillNumber";
-import ID from "audio_diler_common/interfaces/ID";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
+import IBill from "dealer_common/interfaces/IBill";
+import IBillNumber from "dealer_common/interfaces/IBillNumber";
+import ID from "dealer_common/interfaces/ID";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
 import AbstractAPI from "./AbstractAPI";

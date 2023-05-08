@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import API from '../api/API';
-import IBaseContract from 'audio_diler_common/interfaces/IBaseContract';
+import IBaseContract from 'dealer_common/interfaces/IBaseContract';
 import { useNavigate } from 'react-router-dom';
 import IconButton from "../components/IconButton";
 import tryServerRequest from '../utils/tryServerRequest';

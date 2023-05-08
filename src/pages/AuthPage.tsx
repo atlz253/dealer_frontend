@@ -5,7 +5,7 @@ import { AuthContext } from "../context";
 import IconButton from "../components/IconButton";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import tryServerRequest from "../utils/tryServerRequest";
-import IAuthorization from 'audio_diler_common/interfaces/IAuthorization';
+import IAuthorization from 'dealer_common/interfaces/IAuthorization';
 import Auth from '../components/Auth/Auth';
 
 const AuthPage = () => {

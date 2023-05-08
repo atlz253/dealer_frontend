@@ -1,4 +1,4 @@
-import IBaseContract from "audio_diler_common/interfaces/IBaseContract";
+import IBaseContract from "dealer_common/interfaces/IBaseContract";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";

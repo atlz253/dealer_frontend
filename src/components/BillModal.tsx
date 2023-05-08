@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import Bill from "./Bill";
 import { Dispatch, FC, SetStateAction, useEffect, useState, useRef } from "react";
-import IBill from "audio_diler_common/interfaces/IBill";
+import IBill from "dealer_common/interfaces/IBill";
 import ItemPageBar from "./ItemPageBar";
 import DeleteModal from "./DeleteModal";
 import ApproveModal from "./ApproveModal";

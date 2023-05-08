@@ -1,23 +1,23 @@
-import IBill from "audio_diler_common/interfaces/IBill";
+import IBill from "dealer_common/interfaces/IBill";
 import Bill from "./Bill";
 import ProductsTable, { ProductsIndexing } from "./ProductsTable";
-import IContract from "audio_diler_common/interfaces/IContract";
+import IContract from "dealer_common/interfaces/IContract";
 import { FC, Dispatch, SetStateAction, useEffect, useState, ChangeEvent, useContext } from "react";
 import Categories from "./Categories/Categories"
 import NamedSelect from "./NamedInputs/NamedSelect";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import IName from "audio_diler_common/interfaces/IName";
-import IBillNumber from "audio_diler_common/interfaces/IBillNumber";
+import IName from "dealer_common/interfaces/IName";
+import IBillNumber from "dealer_common/interfaces/IBillNumber";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "./IconButton";
 import ProductsModal from "./ProductsModal";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
 import Products from "./Products";
 import CategoryItem from "./Categories/CategoryItem";
 import { AuthContext } from "../context";
 import ChequesTable from "./ChequesTable";
-import ICheque from "audio_diler_common/interfaces/ICheque";
+import ICheque from "dealer_common/interfaces/ICheque";
 
 interface IContractProps {
     contract: IContract,

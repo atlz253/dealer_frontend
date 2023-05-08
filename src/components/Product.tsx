@@ -1,4 +1,4 @@
-import IProduct from "audio_diler_common/interfaces/IProduct";
+import IProduct from "dealer_common/interfaces/IProduct";
 import NamedInput, { NamedInputType } from "./NamedInputs/NamedInput";
 import { FC, Dispatch, SetStateAction, useState, useEffect } from "react";
 

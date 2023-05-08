@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseURL } from "./APIconfig";
 import AbstractAPI from "./AbstractAPI";
-import ICheque from "audio_diler_common/interfaces/ICheque";
+import ICheque from "dealer_common/interfaces/ICheque";
 
 class Cheques extends AbstractAPI {
     public static async Save(contractID: number, cheque: ICheque): Promise<void> {

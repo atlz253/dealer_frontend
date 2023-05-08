@@ -1,13 +1,13 @@
-import IBaseProvider from "audio_diler_common/interfaces/IBaseProvider";
+import IBaseProvider from "dealer_common/interfaces/IBaseProvider";
 import AbstractAPI from "./AbstractAPI";
 import ProviderBills from "./ProviderBills";
 import ProviderProducts from "./ProviderProducts";
-import IName from "audio_diler_common/interfaces/IName";
+import IName from "dealer_common/interfaces/IName";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import IProvider from "audio_diler_common/interfaces/IProvider";
-import ID from "audio_diler_common/interfaces/ID";
-import ICount from "audio_diler_common/interfaces/ICount";
+import IProvider from "dealer_common/interfaces/IProvider";
+import ID from "dealer_common/interfaces/ID";
+import ICount from "dealer_common/interfaces/ICount";
 
 class Providers extends AbstractAPI {
     public static SetAuthToken(token: string): void {

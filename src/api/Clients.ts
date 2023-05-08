@@ -1,12 +1,12 @@
-import IBaseClient from "audio_diler_common/interfaces/IBaseClient";
+import IBaseClient from "dealer_common/interfaces/IBaseClient";
 import AbstractAPI from "./AbstractAPI";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import ID from "audio_diler_common/interfaces/ID";
-import IClient from "audio_diler_common/interfaces/IClient";
+import ID from "dealer_common/interfaces/ID";
+import IClient from "dealer_common/interfaces/IClient";
 import ClientBills from "./ClientBills";
-import IName from "audio_diler_common/interfaces/IName";
-import ICount from "audio_diler_common/interfaces/ICount";
+import IName from "dealer_common/interfaces/IName";
+import ICount from "dealer_common/interfaces/ICount";
 
 class Clients extends AbstractAPI {
     public static SetAuthToken(token: string): void {

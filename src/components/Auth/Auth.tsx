@@ -1,7 +1,7 @@
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../IconButton";
 import { Form } from "react-bootstrap";
-import IAuthorization from "audio_diler_common/interfaces/IAuthorization";
+import IAuthorization from "dealer_common/interfaces/IAuthorization";
 import { Dispatch, SetStateAction, KeyboardEvent, FC } from "react";
 import styles from "./Auth.module.css";
 import classNames from "classnames";

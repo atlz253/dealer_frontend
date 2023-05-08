@@ -3,7 +3,7 @@ import ProductsTable from "./ProductsTable";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
 
 interface IProductsModalProps {
     isShow: boolean,

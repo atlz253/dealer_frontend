@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import IBaseProvider from "audio_diler_common/interfaces/IBaseProvider";
+import IBaseProvider from "dealer_common/interfaces/IBaseProvider";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../components/IconButton';
 import { Table } from 'react-bootstrap';

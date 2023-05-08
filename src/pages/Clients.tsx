@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { Table } from "react-bootstrap";
 import IconButton from "../components/IconButton";
 import { useNavigate } from "react-router-dom";
-import IBaseClient from "audio_diler_common/interfaces/IBaseClient";
+import IBaseClient from "dealer_common/interfaces/IBaseClient";
 import API from "../api/API";
 import tryServerRequest from "../utils/tryServerRequest";
 

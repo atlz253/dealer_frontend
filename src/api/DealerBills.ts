@@ -1,10 +1,10 @@
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
 import AbstractAPI from "./AbstractAPI";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
-import IBill from "audio_diler_common/interfaces/IBill";
-import ID from "audio_diler_common/interfaces/ID";
-import IBillNumber from "audio_diler_common/interfaces/IBillNumber";
+import IBill from "dealer_common/interfaces/IBill";
+import ID from "dealer_common/interfaces/ID";
+import IBillNumber from "dealer_common/interfaces/IBillNumber";
 
 class DealerBills extends AbstractAPI {
     public static async Get(onlyBillNumbers?: boolean): Promise<IBaseBill[] | IBillNumber[]> {

@@ -1,4 +1,4 @@
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
 import { Dispatch, FC, SetStateAction } from 'react';
 import { Form, Table } from "react-bootstrap";
 import IconButton from "./IconButton";

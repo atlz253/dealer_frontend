@@ -1,21 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import ItemPage from "../components/ItemPage";
-import IProvider from "audio_diler_common/interfaces/IProvider";
+import IProvider from "dealer_common/interfaces/IProvider";
 import Provider from "../components/Provider";
 import Categories from "../components/Categories/Categories";
 import API from "../api/API";
 import tryServerRequest from "../utils/tryServerRequest";
 import { useNavigate, useParams } from "react-router-dom";
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
 import BillsTable from "../components/BillsTable";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../components/IconButton";
 import BillModal from "../components/BillModal";
-import IBill from "audio_diler_common/interfaces/IBill";
+import IBill from "dealer_common/interfaces/IBill";
 import Bills from "../components/Bills";
 import Products from "../components/Products";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
-import IProduct from "audio_diler_common/interfaces/IProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
+import IProduct from "dealer_common/interfaces/IProduct";
 
 interface IProviderPageProps {
     newProvider?: boolean

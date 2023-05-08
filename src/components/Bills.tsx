@@ -3,10 +3,10 @@ import BillModal from "./BillModal";
 import BillsTable from "./BillsTable";
 import IconButton from "./IconButton";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
-import IBill from "audio_diler_common/interfaces/IBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
+import IBill from "dealer_common/interfaces/IBill";
 import tryServerRequest from "../utils/tryServerRequest";
-import ID from "audio_diler_common/interfaces/ID";
+import ID from "dealer_common/interfaces/ID";
 import classNames from "classnames";
 
 interface IBillsProps {

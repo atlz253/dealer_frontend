@@ -1,12 +1,12 @@
-import IBaseContract from "audio_diler_common/interfaces/IBaseContract";
-import IContract from "audio_diler_common/interfaces/IContract";
+import IBaseContract from "dealer_common/interfaces/IBaseContract";
+import IContract from "dealer_common/interfaces/IContract";
 import axios from "axios";
 import { baseURL } from "./APIconfig";
 import AbstractAPI from "./AbstractAPI";
-import INewContract from "audio_diler_common/interfaces/INewContract";
-import ID from "audio_diler_common/interfaces/ID";
+import INewContract from "dealer_common/interfaces/INewContract";
+import ID from "dealer_common/interfaces/ID";
 import Cheques from "./Cheques";
-import ICount from "audio_diler_common/interfaces/ICount";
+import ICount from "dealer_common/interfaces/ICount";
 
 class Contracts extends AbstractAPI {
     public static SetAuthToken(token: string): void {

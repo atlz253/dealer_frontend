@@ -1,12 +1,12 @@
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Product from "./Product";
-import IProduct from "audio_diler_common/interfaces/IProduct";
+import IProduct from "dealer_common/interfaces/IProduct";
 import ApproveModal from "./ApproveModal";
 import DeleteModal from "./DeleteModal";
 import ItemPageBar from "./ItemPageBar";
 import tryServerRequest from "../utils/tryServerRequest";
-import ID from "audio_diler_common/interfaces/ID";
+import ID from "dealer_common/interfaces/ID";
 
 interface IProductModalProps {
     isShow: boolean,

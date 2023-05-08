@@ -1,4 +1,4 @@
-import IClient from "audio_diler_common/interfaces/IClient";
+import IClient from "dealer_common/interfaces/IClient";
 import { Dispatch, FC, SetStateAction } from "react";
 import NamedInput from "./NamedInputs/NamedInput";
 

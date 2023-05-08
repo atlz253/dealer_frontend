@@ -1,10 +1,10 @@
 import { DateTime } from "luxon";
 import NamedInput from "./NamedInputs/NamedInput";
 import NamedSelect from "./NamedInputs/NamedSelect";
-import IDealer from "audio_diler_common/interfaces/IDealer";
-import IAuthorization from "audio_diler_common/interfaces/IAuthorization";
+import IDealer from "dealer_common/interfaces/IDealer";
+import IAuthorization from "dealer_common/interfaces/IAuthorization";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import IUser from "audio_diler_common/interfaces/IUser";
+import IUser from "dealer_common/interfaces/IUser";
 
 interface IUserProps {
     user: IUser | IDealer,

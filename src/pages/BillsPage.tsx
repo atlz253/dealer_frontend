@@ -1,13 +1,13 @@
 import { FC, useState, useEffect } from 'react';
 import IconButton from "../components/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import IBaseBill from "audio_diler_common/interfaces/IBaseBill";
+import IBaseBill from "dealer_common/interfaces/IBaseBill";
 import API from "../api/API";
 import tryServerRequest from "../utils/tryServerRequest";
 import { useNavigate } from "react-router-dom";
 import BillsTable from '../components/BillsTable';
 import Bills from '../components/Bills';
-import IBill from 'audio_diler_common/interfaces/IBill';
+import IBill from 'dealer_common/interfaces/IBill';
 
 const BillsPage: FC = () => {
     const [bills, setBills] = useState<IBaseBill[] | null>([]);

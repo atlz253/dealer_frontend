@@ -1,14 +1,14 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import React, { FC, useContext, useEffect, useState } from 'react';
 import IconButton from "../components/IconButton";
-import IBaseProduct from "audio_diler_common/interfaces/IBaseProduct";
+import IBaseProduct from "dealer_common/interfaces/IBaseProduct";
 import API from "../api/API";
 import ProductsTable from "../components/ProductsTable";
 import { useNavigate } from "react-router-dom";
 import tryServerRequest from "../utils/tryServerRequest";
 import Products from "../components/Products";
-import IProduct from "audio_diler_common/interfaces/IProduct";
-import ID from "audio_diler_common/interfaces/ID";
+import IProduct from "dealer_common/interfaces/IProduct";
+import ID from "dealer_common/interfaces/ID";
 
 const ProductsPage: FC = () => {
     const [products, setProducts] = useState<IBaseProduct[]>([]);

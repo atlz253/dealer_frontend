@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthContext } from "../context";
-import IAuth from "audio_diler_common/interfaces/IAuth";
+import IAuth from "dealer_common/interfaces/IAuth";
 import { AppRouter } from "./AppRouter";
 import API from "../api/API";
 
