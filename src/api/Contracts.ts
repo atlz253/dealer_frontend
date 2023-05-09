@@ -39,7 +39,7 @@ class Contracts extends AbstractAPI {
         return request.data;
     }
 
-    public static async GetCount(contractStatus?: string): Promise<ICount> {
+    public static async GetCount(contractStatus?: string): Promise<number> {
         const request = await axios.get<ICount>(baseURL + "/contracts/count", {
             headers: {
                 authorization: this.authToken
@@ -49,7 +49,7 @@ class Contracts extends AbstractAPI {
             }
         });
 
-        return request.data;
+        return request.data.count;
     }
 
     public static async Create(contract: INewContract): Promise<ID> {

@@ -1,27 +1,22 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import API from '../api/API';
-import IBaseContract from 'dealer_common/interfaces/IBaseContract';
 import { useNavigate } from 'react-router-dom';
 import IconButton from "../components/IconButton";
-import tryServerRequest from '../utils/tryServerRequest';
 import Contracts from '../components/Contracts/Contracts';
+import useContracts from '../hooks/useContracts';
+import { Spinner } from 'react-bootstrap';
 
 const ContractsPage: FC = () => {
-    const [contracts, setContracts] = useState<IBaseContract[]>([]);
+    const [contracts, setContracts, isContractsLoading] = useContracts();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (API.AuthToken === "") {
-            return;
-        }
-
-        tryServerRequest(async () => {
-            const contracts = await API.Contracts.Get();
-
-            setContracts(contracts);
-        });
-    }, []);
+    if (isContractsLoading) {
+        return (
+            <div className="d-flex flex-fill justify-content-center align-items-center p-1">
+                <Spinner animation="border" />
+            </div>
+        )
+    }
 
     return (
         <div className="d-flex flex-fill flex-column p-1">

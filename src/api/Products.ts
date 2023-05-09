@@ -27,14 +27,14 @@ class Products extends AbstractAPI {
         return request.data;
     }
 
-    public static async GetCount(): Promise<ICount> {
+    public static async GetCount(): Promise<number> {
         const request = await axios.get<ICount>(baseURL + "/products/count", {
             headers: {
                 authorization: this.authToken
             }
         });
 
-        return request.data;
+        return request.data.count;
     }
 
     public static async Create(product: IProduct): Promise<ID> {

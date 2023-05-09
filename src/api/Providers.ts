@@ -48,14 +48,14 @@ class Providers extends AbstractAPI {
         return response.data;
     }
 
-    public static async GetCount(): Promise<ICount> {
+    public static async GetCount(): Promise<number> {
         const request = await axios.get<ICount>(baseURL + "/providers/count", {
             headers: {
                 authorization: this.authToken
             }
         });
 
-        return request.data;
+        return request.data.count;
     }
 
     public static async Create(provider: IProvider): Promise<ID> {

@@ -1,29 +1,10 @@
-import { useState } from "react";
-import tryServerRequest from "../utils/tryServerRequest";
 import API from "../api/API";
-import ICount from "dealer_common/interfaces/ICount";
+import useFetchData from "./useFetchData";
 
-const useCount = (fetchFunc: () => Promise<ICount>): [number, boolean] => {
-    const [contractsCount, setContractsCount] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+export const useContractsCount = (contractStatus?: string) => useFetchData(() => API.Contracts.GetCount(contractStatus), 0);
 
-    tryServerRequest(async () => {
-        const contractsCount = await fetchFunc();
+export const useClientsCount = () => useFetchData(() => API.Clients.GetCount(), 0);
 
-        setIsLoading(false);
-        setContractsCount(contractsCount.count);
-    });
+export const useProvidersCount = () => useFetchData(() => API.Providers.GetCount(), 0);
 
-    return [
-        contractsCount,
-        isLoading
-    ];
-}
-
-export const useContractsCount = (contractStatus?: string) => useCount(() => API.Contracts.GetCount(contractStatus));
-
-export const useClientsCount = () => useCount(() => API.Clients.GetCount());
-
-export const useProvidersCount = () => useCount(() => API.Providers.GetCount());
-
-export const useProductsCount = () => useCount(() => API.Products.GetCount());
+export const useProductsCount = () => useFetchData(() => API.Products.GetCount(), 0);
