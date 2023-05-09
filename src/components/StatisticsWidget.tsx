@@ -1,24 +1,21 @@
+import classNames from "classnames";
 import { FC } from "react";
-import { Card, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 interface IStatisticsWidgetProps {
-    value: number | null,
+    value: number,
     name: string,
-    className?: string
+    className?: string,
+    isLoading?: boolean
 }
 
-const StatisticsWidget: FC<IStatisticsWidgetProps> = ({ value, name, className }) => {
+const StatisticsWidget: FC<IStatisticsWidgetProps> = ({ value, name, className, isLoading }) => {
     return (
         <Card body className={className}>
-            <h3 className="text-center">
-                {
-                    value ?
-                        value
-                        :
-                        <Spinner animation="border" />
-                }
+            <h3 className={classNames("text-center", isLoading ? "text-white" : undefined)}>
+                {value}
             </h3>
-            <div className="text-center text-nowrap">
+            <div className={classNames("text-center text-nowrap", isLoading ? "text-white" : undefined)}>
                 {name}
             </div>
         </Card>

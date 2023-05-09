@@ -1,58 +1,14 @@
-import { useEffect, useState } from "react";
 import StatisticsWidget from "../components/StatisticsWidget";
 import { Col, Container, Row } from "react-bootstrap";
-import tryServerRequest from "../utils/tryServerRequest";
-import API from "../api/API";
+import { useClientsCount, useContractsCount, useProductsCount, useProvidersCount } from "../hooks/useCount";
 
 const StatisticsPage = () => {
-    const [contractsCount, setContractsCount] = useState<number | null>(null);
-    const [openContractsCount, setOpenContractsCount] = useState<number | null>(null);
-    const [closeContractsCount, setCloseContractsCount] = useState<number | null>(null);
-    const [clientsCount, setClientsCount] = useState<number | null>(null);
-    const [providersCount, setProvidersCount] = useState<number | null>(null);
-    const [productsCount, setProductsCount] = useState<number | null>(null);
-
-    useEffect(() => {
-        if (API.AuthToken === "") {
-            return;
-        }
-
-        tryServerRequest(async () => {
-            const contractsCount = await API.Contracts.GetCount();
-
-            setContractsCount(contractsCount.count);
-        });
-
-        tryServerRequest(async () => {
-            const openContractsCount = await API.Contracts.GetCount("open");
-
-            setOpenContractsCount(openContractsCount.count);
-        });
-
-        tryServerRequest(async () => {
-            const closeContractsCount = await API.Contracts.GetCount("close");
-
-            setCloseContractsCount(closeContractsCount.count);
-        });
-
-        tryServerRequest(async () => {
-            const clientsCount = await API.Clients.GetCount();
-
-            setClientsCount(clientsCount.count);
-        });
-
-        tryServerRequest(async () => {
-            const providersCount = await API.Providers.GetCount();
-
-            setProvidersCount(providersCount.count);
-        });
-
-        tryServerRequest(async () => {
-            const productsCount = await API.Products.GetCount();
-
-            setProductsCount(productsCount.count);
-        });
-    }, []);
+    const [contractsCount, isContractsCountLoading] = useContractsCount();
+    const [openContractsCount, isOpenContractsCountLoading] = useContractsCount("open");
+    const [closeContractsCount, isCloseContractsCountLoading] = useContractsCount("close");
+    const [clientsCount, isClientsCountLoading] = useClientsCount();
+    const [providersCount, isProvidersCountLoading] = useProvidersCount();
+    const [productsCount, isProductsCountLoading] = useProductsCount();
 
     return (
         <Container className="mt-5">
@@ -60,6 +16,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={contractsCount}
+                        isLoading={isContractsCountLoading}
                         name="Количество договоров"
                         className="mb-2"
                     />
@@ -67,6 +24,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={openContractsCount}
+                        isLoading={isOpenContractsCountLoading}
                         name="Открытых договоров"
                         className="mb-2"
                     />
@@ -74,6 +32,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={closeContractsCount}
+                        isLoading={isCloseContractsCountLoading}
                         name="Закрытых договоров"
                         className="mb-2"
                     />
@@ -83,6 +42,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={clientsCount}
+                        isLoading={isClientsCountLoading}
                         name="Количество клиентов"
                         className="mb-2"
                     />
@@ -90,6 +50,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={providersCount}
+                        isLoading={isProvidersCountLoading}
                         name="Количество поставщиков"
                         className="mb-2"
                     />
@@ -97,6 +58,7 @@ const StatisticsPage = () => {
                 <Col>
                     <StatisticsWidget
                         value={productsCount}
+                        isLoading={isProductsCountLoading}
                         name="Количество товаров"
                         className="mb-2"
                     />
