@@ -1,4 +1,4 @@
-import StatisticsWidget from "../components/StatisticsWidget";
+import StatisticsWidget from "../components/StatisticsWidget/StatisticsWidget";
 import { Col, Container, Row } from "react-bootstrap";
 import { useClientsCount, useContractsCount, useProductsCount, useProvidersCount } from "../hooks/useCount";
 

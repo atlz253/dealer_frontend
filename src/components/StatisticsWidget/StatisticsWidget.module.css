@@ -1,0 +1,35 @@
+.bodyLoading {
+    animation: bodyLoad 2s ease-in-out infinite;
+}
+
+@keyframes bodyLoad {
+    0% {
+        background-color: var(--bs-gray-100);
+    }
+
+    50% {
+        background-color: var(--bs-white);
+    }
+
+    100% {
+        background-color: var(--bs-gray-100);
+    }
+}
+
+.textHidden {
+    opacity: 0;
+}
+
+.textVisible {
+    animation: colorChange 1s ease;
+}
+
+@keyframes colorChange {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
