@@ -12,6 +12,7 @@ import UserPage from "../pages/UserPage";
 import ClientPage from '../pages/ClientPage';
 import ProviderPage from '../pages/ProviderPage';
 import StatisticsPage from '../pages/StatisticsPage';
+import QueriesPage from '../pages/QueriesPage';
 
 export const dealer_routes: RouteObject[] = [
     {
@@ -65,6 +66,10 @@ export const dealer_routes: RouteObject[] = [
     {
         path: "/bills",
         element: <BillsPage />
+    },
+    {
+        path: "/queries",
+        element: <QueriesPage />
     }
 ];
 

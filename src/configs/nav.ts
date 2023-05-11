@@ -17,6 +17,10 @@ export const dealer_links: ILink[] = [
         name: "Поставщики"
     },
     {
+        to: "/queries",
+        name: "Документы"
+    },
+    {
         to: "/clients",
         name: "Клиенты"
     },

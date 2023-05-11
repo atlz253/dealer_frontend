@@ -9,10 +9,11 @@ interface ICategoryItemProps {
     notClosable?: boolean,
     eventKey: string,
     children?: ReactNode,
-    onClick?: () => any
+    onClick?: () => any,
+    className?: string
 }
 
-const CategoryItem: FC<ICategoryItemProps> = ({ name, notClosable, eventKey, children, onClick }) => {
+const CategoryItem: FC<ICategoryItemProps> = ({ name, notClosable, eventKey, children, onClick, className }) => {
     return (
         <Card className={classNames(style.category, "mt-1")}>
             <CategoryToggle
@@ -22,7 +23,7 @@ const CategoryItem: FC<ICategoryItemProps> = ({ name, notClosable, eventKey, chi
                 onClick={onClick}
             />
             <Accordion.Collapse eventKey={eventKey}>
-                <Card.Body className="px-0 ps-2">
+                <Card.Body className={classNames("px-0 ps-2", className)}>
                     {children}
                 </Card.Body>
             </Accordion.Collapse>

@@ -6,6 +6,10 @@ import DealerBills from "./DealerBills";
 import Clients from "./Clients";
 import Users from "./Users";
 import Providers from "./Providers";
+import Queries from "./Queries";
+import axios from "axios";
+import { baseURL } from "./APIconfig";
+import tryServerRequest from "../utils/tryServerRequest";
 
 class API extends AbstractAPI {
     public static SetAuthToken(token: string): void {
@@ -14,6 +18,7 @@ class API extends AbstractAPI {
         DealerBills.SetAuthToken(token);
         Login.SetAuthToken(token);
         Users.SetAuthToken(token);
+        Queries.SetAuthToken(token);
         Clients.SetAuthToken(token);
         Products.SetAuthToken(token);
         Providers.SetAuthToken(token);
@@ -46,6 +51,36 @@ class API extends AbstractAPI {
 
     public static get Providers(): typeof Providers {
         return Providers;
+    }
+
+    public static get Queries(): typeof Queries {
+        return Queries;
+    }
+
+    public static DownloadFile(url: string, fileName: string): void {
+        axios({
+            url: baseURL + url,
+            method: "GET",
+            responseType: "blob",
+            headers: {
+                authorization: this.authToken
+            }
+        }).then(response => {
+            const href = URL.createObjectURL(response.data);
+            
+            const link = document.createElement('a');
+
+            link.href = href;
+
+            link.setAttribute("download", fileName);
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+        }).catch(reason => alert("Не удалось получить файл"));
     }
 }
 
