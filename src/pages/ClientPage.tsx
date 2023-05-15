@@ -57,8 +57,11 @@ const ClientPage: FC<ClientPageProps> = ({ newClient }) => {
         tryServerRequest(async () => {
             if (newClient) {
                 const result = await API.Clients.Create(client);
+                
+                navigate("/clients/" + result.id);
 
                 setClient({ ...client, id: result.id });
+
             }
             else {
                 await API.Clients.Save(client);
