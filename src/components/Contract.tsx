@@ -38,22 +38,6 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
     const [sellerBillNameSelect, setSellerBillNameSelect] = useState<string>("default");
     const { auth } = useContext(AuthContext);
 
-    useEffect(() => {
-        if (!newContract) {
-            return;
-        }
-
-        if (API.AuthToken === "") {
-            return;
-        }
-
-        tryServerRequest(async () => {
-            const clientsNames = await API.Clients.Get(true);
-
-            setBuyersNames(clientsNames as IName[]);
-        });
-    }, []);
-
     const buyerBillOwnerChange = (value: string) => {
         tryServerRequest(async () => {
             const ID = Number(value);
@@ -102,6 +86,10 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
 
                     setProducts(products);
 
+                    const clientsNames = await API.Clients.Get(true);
+
+                    setBuyersNames(clientsNames as IName[]);
+
                     break;
                 case "buy":
                     const sellerNames = await API.Providers.Get(true);
@@ -113,6 +101,8 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                     setBuyerBillsNumbers(dealerBillsNumbers);
 
                     setProducts([]);
+
+                    setBuyersNames([]);
 
                     break;
             }
@@ -244,7 +234,7 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
                                     name="Владелец"
                                     value={buyerBillOwnerSelect}
                                     onChange={event => buyerBillOwnerChange(event.target.value)}
-                                    disabled={contract.type === "buy"}
+                                    disabled={contract.type === "buy" || buyersNames.length === 0}
                                 >
                                     <option value="default" disabled>{contract.type === "buy" ? auth?.login : "Выберите владельца счета"}</option>
                                     {buyersNames.map(client => <option key={client.id} value={client.id}>{client.name}</option>)}
