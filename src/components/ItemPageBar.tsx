@@ -21,7 +21,7 @@ const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, saveClickA
                 backClickAction !== undefined && (!isEditMode) &&
                 <IconButton
                     icon={faArrowLeft}
-                    variant="secondary"
+                    variant="primary"
                     text="Назад"
                     onClick={backClickAction}
                 />
@@ -30,7 +30,7 @@ const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, saveClickA
                 isEditMode &&
                 <IconButton
                     icon={faBan}
-                    variant="secondary"
+                    variant="primary"
                     text="Отмена"
                     onClick={cancelEditClickAction}
                 />
@@ -40,7 +40,7 @@ const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, saveClickA
                     <div>
                         <IconButton
                             icon={faFloppyDisk}
-                            variant="success"
+                            variant="primary"
                             text="Сохранить"
                             onClick={saveClickAction}
                         />
@@ -49,13 +49,13 @@ const ItemPageBar: FC<IItemPageBar> = ({ backClickAction, isEditMode, saveClickA
                     <div>
                         <IconButton
                             icon={faPen}
-                            variant="secondary"
+                            variant="primary"
                             text="Изменить"
                             onClick={editClickAction}
                         />
                         <IconButton
                             icon={faTrash}
-                            variant="danger"
+                            variant="primary"
                             text="Удалить"
                             onClick={deleteClickAction}
                             className="ms-1"
