@@ -30,7 +30,7 @@ export const dealer_links: ILink[] = [
     },
     {
         to: "/bills",
-        name: "Счета"
+        name: "Мои счета"
     },
     {
         to: "/help",
