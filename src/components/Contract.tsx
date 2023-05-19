@@ -263,7 +263,7 @@ const Contract: FC<IContractProps> = ({ contract, setContract, isEditMode, newCo
 
                 </Categories.Item>
                 <Categories.Item
-                    name="Чеки на оплату"
+                    name="Счета на оплату"
                     eventKey="0"
                     notClosable
                 >
