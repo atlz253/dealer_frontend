@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { AuthContext } from "../context";
 import IAuth from "dealer_common/interfaces/IAuth";
 import { AppRouter } from "./AppRouter";
@@ -28,9 +28,9 @@ const Root: FC = () => {
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
-      <BrowserRouter>
+      <HashRouter>
         <AppRouter />
-      </BrowserRouter>
+      </HashRouter>
     </AuthContext.Provider>
   );
 }

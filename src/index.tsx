@@ -4,14 +4,31 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Root from "./pages/Root";
 
+async function enableMocking() {
+  if (window.location.hostname !== "atlz253.github.io") {
+    return;
+  }
+
+  const { worker } = await import("./mocks/browser");
+
+  return worker.start({
+    serviceWorker: {
+      url: `${process.env.PUBLIC_URL}/mockServiceWorker.js`
+    }
+  });
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <Root />
-  </React.StrictMode>
-);
+
+enableMocking().then(() => {
+  root.render(
+    <React.StrictMode>
+      <Root />
+    </React.StrictMode>
+  );
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
