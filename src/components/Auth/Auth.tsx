@@ -5,6 +5,7 @@ import IAuthorization from "dealer_common/interfaces/IAuthorization";
 import { Dispatch, SetStateAction, KeyboardEvent, FC } from "react";
 import styles from "./Auth.module.css";
 import classNames from "classnames";
+import { demoUsers } from "../../mocks/db";
 
 interface IAuthProps {
     loginData: IAuthorization,
@@ -44,6 +45,16 @@ const Auth: FC<IAuthProps> = ({ loginData, setLoginData, onSubmit }) => {
                     text="Вход"
                     onClick={onSubmit}
                 />
+            </div>
+            <div className={styles.credentials}>
+                <div className={styles.credentialsTitle}>Доступные пользователи</div>
+                {demoUsers.map(user => (
+                    <div className={styles.credentialRow} key={user.id}>
+                        <span className={styles.credentialRole}>{user.type}</span>
+                        <span>логин: <strong>{user.login}</strong></span>
+                        <span>пароль: <strong>{user.password}</strong></span>
+                    </div>
+                ))}
             </div>
         </Form>
     );

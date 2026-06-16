@@ -77,6 +77,11 @@ const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 
 const nextID = (items: { id: number }[]) => Math.max(0, ...items.map(item => item.id)) + 1;
 
+export const demoUsers: DemoUser[] = [
+    { id: 1, firstName: "Administrator", login: "admin", password: "admin", type: "admin" },
+    { id: 2, firstName: "Dealer", login: "dealer", password: "dealer", type: "dealer", employmentDate: "2026-01-10" }
+];
+
 const bill = (id: number, ownerName: string, billNumber: string): DemoBill => ({
     id,
     ownerName,
@@ -167,10 +172,7 @@ export const db = {
         bill(302, "dealer", "40702810300000000302")
     ] as DemoBill[],
     contracts: [] as DemoContract[],
-    users: [
-        { id: 1, firstName: "Administrator", login: "admin", password: "admin", type: "admin" },
-        { id: 2, firstName: "Dealer", login: "dealer", password: "dealer", type: "dealer", employmentDate: "2026-01-10" }
-    ] as DemoUser[]
+    users: clone(demoUsers)
 };
 
 db.contracts = [
