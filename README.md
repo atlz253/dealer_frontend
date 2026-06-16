@@ -1,46 +1,168 @@
-# Getting Started with Create React App
+# dealer_frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Фронтенд системы для работы с договорами, контрагентами, товарами, счетами, документами и пользователями для дилеров. Проект реализован как одностраничное приложение на React и TypeScript.
 
-## Available Scripts
+## Возможности
 
-In the project directory, you can run:
+- Авторизация пользователей с разделением интерфейса по типам учетных записей.
+- Интерфейс дилера:
+  - статистика;
+  - договоры покупки и продажи;
+  - поставщики и их товары/счета;
+  - клиенты и их счета;
+  - номенклатура товаров;
+  - счета дилера;
+  - документы и отчеты;
+  - справочный раздел.
+- Интерфейс администратора:
+  - список пользователей;
+  - создание, редактирование и удаление пользователей.
+- Работа с REST API через axios.
+- Демо-моки API через MSW для опубликованной версии на GitHub Pages.
 
-### `npm start`
+## Технологии
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 18
+- TypeScript
+- React Router
+- Bootstrap и React Bootstrap
+- Font Awesome
+- axios
+- luxon
+- MSW
+- Create React App
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Требования
 
-### `npm test`
+- Node.js
+- npm
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Зависимости фиксируются в `package-lock.json`, поэтому для установки рекомендуется использовать `npm install`.
 
-### `npm run build`
+## Установка
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Запуск в режиме разработки
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Приложение будет доступно по адресу `http://localhost:3000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+По умолчанию фронтенд обращается к API по адресу:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```ts
+http://localhost:2727
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Адрес задан в `src/api/APIconfig.ts`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Сборка
 
-## Learn More
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Готовая production-сборка создается в каталоге `build`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Тесты
+
+```bash
+npm test
+```
+
+Команда запускает тестовый раннер Create React App в интерактивном режиме.
+
+## Основные маршруты
+
+Маршруты дилера:
+
+- `/` - главная страница;
+- `/statistics` - статистика;
+- `/contracts` - список договоров;
+- `/contracts/new` - создание договора;
+- `/contracts/:contractID` - карточка договора;
+- `/providers` - поставщики;
+- `/providers/new` - создание поставщика;
+- `/providers/:providerID` - карточка поставщика;
+- `/clients` - клиенты;
+- `/clients/new` - создание клиента;
+- `/clients/:clientID` - карточка клиента;
+- `/products` - товары;
+- `/bills` - счета дилера;
+- `/queries` - документы и отчеты;
+- `/help` - справка.
+
+Маршруты администратора:
+
+- `/` - главная страница;
+- `/users` - пользователи;
+- `/users/new` - создание пользователя;
+- `/users/:userID` - карточка пользователя.
+
+## Структура проекта
+
+```text
+public/
+  help/                 Изображения для справочного раздела
+  mockServiceWorker.js  Service Worker для MSW
+src/
+  api/                  API-клиенты для сущностей приложения
+  components/           Переиспользуемые React-компоненты
+  configs/              Конфигурация маршрутов и навигации
+  hooks/                Пользовательские React-хуки
+  mocks/                Демо-данные и обработчики MSW
+  pages/                Страницы приложения
+  utils/                Вспомогательные функции
+```
+
+## API
+
+Клиентская часть API находится в `src/api`. Центральная точка доступа - `src/api/API.ts`, которая объединяет клиенты для:
+
+- авторизации;
+- договоров;
+- клиентов;
+- поставщиков;
+- товаров;
+- счетов дилера;
+- документов/отчетов;
+- пользователей.
+
+После авторизации токен передается во все API-клиенты через `API.SetAuthToken`.
+
+## Моки и демо-режим
+
+В проекте есть MSW-обработчики в `src/mocks/handlers.ts` и демо-база данных в `src/mocks/db.ts`.
+
+Моки автоматически включаются только для хоста `atlz253.github.io`. Это позволяет опубликованной версии работать без реального backend-сервера. При локальном запуске приложение ожидает доступный backend на `http://localhost:2727`.
+
+Демо-учетные записи, описанные в моках:
+
+- `admin`
+- `dealer`
+
+Пароли и остальные демо-данные находятся в `src/mocks/db.ts`.
+
+## Публикация
+
+В `package.json` указан `homepage`:
+
+```text
+https://atlz253.github.io/dealer_frontend
+```
+
+Это значение используется Create React App при сборке приложения для GitHub Pages.
+
+## Полезные команды
+
+```bash
+npm start       # запуск dev-сервера
+npm test        # запуск тестов
+npm run build   # production-сборка
+npm run eject   # извлечение конфигурации CRA
+```
